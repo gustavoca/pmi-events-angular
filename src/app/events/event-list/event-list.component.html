@@ -1,0 +1,13 @@
+<table class="table">
+  <thead class="thead-default">
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>participants</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr app-event-item *ngFor="let event of events" [event]="event"></tr>
+  </tbody>
+</table>
