@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Event  } from '../../event.model';
+import { Event } from '../../event.model';
+import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: '[app-event-item]',
   templateUrl: './event-item.component.html',
@@ -9,9 +10,23 @@ export class EventItemComponent implements OnInit {
 
   @Input() event: Event;
 
-  constructor() { }
+  constructor(private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
   }
 
+  onEditEvent() {
+    console.log("exec edit");
+    this.router.navigate([this.event.id, 'edit'], {relativeTo: this.route });
+  }
+
+  onNewParticipant() {
+    console.log("exec particp");
+    this.router.navigate([this.event.id,'participant', 'new'], {relativeTo: this.route });
+  }
+
+  onDeleteEvent() {
+    // this.router.navigate(['edit'], {relativeTo: this.route });
+  }
 }
