@@ -29,7 +29,7 @@ export class EventEditComponent implements OnInit {
   }
 
   onAddEvent(form) {
-    console.log(form);
+    console.log(form.value);
   }
 
 }

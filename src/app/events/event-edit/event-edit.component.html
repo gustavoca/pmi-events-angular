@@ -3,61 +3,32 @@
     <h1>Nuevo Evento</h1>
   </div>
 </div>
-<div>
-  <form (ngSubmit)="onAddEvent(f)" #f="ngForm">
-    <div class="col-sm-5 form-group">
+<form (ngSubmit)="onAddEvent(f)" #f="ngForm">
+  <div class="row">
+    <div class="col-sm-12 col-lg-6 form-group">
       <label for="name">Nombre</label>
-      <input
-          type="text"
-          id="name"
-          class="form-control"
-          name="name"
-          required
-          ngModel>
-    </div>
-    <div class="col-sm-5 form-group">
+      <input type="text" id="name" class="form-control" name="name" required ngModel>
       <label for="preSalePercentage">Descuento por Pre-venta</label>
       <div class="input-group mb-2 mr-sm-2 mb-sm-0">
         <div class="input-group-addon">%</div>
-        <input
-            type="number"
-            id="preSalePercentage"
-            class="form-control"
-            name="preSalePercentage"
-            required
-            pattern = "^[0-9]+[0-9]*$"
-            ngModel>
+        <input type="number" id="preSalePercentage" class="form-control" name="preSalePercentage" required pattern="^[0-9]+[0-9]*$" ngModel>
       </div>
-    </div>
-    <div class="col-sm-5 form-group">
       <label for="description">Descripción</label>
-      <textarea class="form-control"
-                id="description"
-                name="description"
-                rows="3"
-                ngModel></textarea>
+      <textarea class="form-control" id="description" name="description" rows="3" ngModel></textarea>
     </div>
-    <div class="col-sm-5 form-group">
-      <label>Precios por categoría</label>
-      <div class="form-group row" row *ngFor="let category of participantCategories">
-        <label class="col-form-label col-sm-7" for="{{category.name}}">{{category.name}}</label>
-          <div class="col-sm-5">
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-              <div class="input-group-addon">BOB</div>
-                <input
-                    type="number"
-                    id="{{category.id}}"
-                    class="form-control"
-                    name="{{category.id}}"
-                    pattern = "^[1-9]+[0-9]*$"
-                    ngModel>
-            </div>
+    <div class="col-sm-12 col-lg-6 form-group">
+      <h3>Precios por categoría</h3>
+      <div class="form-group row" *ngFor="let category of participantCategories">
+        <label class="col-form-label col-sm-12 col-lg-7" for="{{category.name}}">{{category.name}}</label>
+        <div class="col-sm-12 col-lg-5">
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon">BOB</div>
+            <input type="number" id="{{category.id}}" class="form-control" name="{{category.id}}" pattern="^[1-9]+[0-9]*$" ngModel>
           </div>
+        </div>
       </div>
     </div>
-    <button [disabled]="!f.valid"
-            type="submit"
-            class="btn btn-primary">Guardar</button>
+    <button [disabled]="!f.valid" type="submit" class="btn btn-primary">Guardar</button>
     <a href="#">Cancelar</a>
-  </form>
-</div>
+  </div>
+</form>
