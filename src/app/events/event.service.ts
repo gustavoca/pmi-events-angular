@@ -7,4 +7,8 @@ export class EventService {
   allEvents() {
     return this.events;
   }
+
+  save() {
+    
+  }
 }
