@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
-  events: Event[] = [];
+  events: Array<Event>;
   constructor(private eventService: EventService,
               private router: Router,
               private route: ActivatedRoute) { }

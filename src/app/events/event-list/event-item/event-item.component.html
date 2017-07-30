@@ -2,19 +2,13 @@
 <td>{{event.name}}</td>
 <td>{{event.participants}}</td>
 <td>
-  <button class="btn btn-default" (click)=onNewParticipant()>
-    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+  <button class="btn btn-secondary" (click)=onNewParticipant()>
+    <i class="fa fa-user-o" aria-hidden="true"></i>
   </button>
-  <!-- <a [routerLink]="[event.id]" class="btn btn-default">
-    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-  </a> -->
-  <button class="btn btn-default"(click)=onEditEvent() >
-    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+  <button class="btn btn-secondary"(click)=onEditEvent() >
+    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
   </button>
-  <!-- <a [routerLink]="[event.id]" class="btn btn-default">
-    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-  </a> -->
-  <button class="btn btn-default" (click)=onDeleteEvent()>
-    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+  <button class="btn btn-secondary" (click)=onDeleteEvent()>
+    <i class="fa fa-times" aria-hidden="true"></i>
   </button>
 </td>
