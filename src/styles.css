@@ -1,31 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-.main-container {
-  margin-top: 20px;
+body {
+  padding-top: 5rem;
 }
 
-.title-button-wrapper {
-  margin-top: 15px;
-}
-
-.title-wrapper {
-  margin-bottom: 48px;
-}
-
-@media (min-width: 576px) and (max-width: 767px) {
-  .create-button {
-    text-align: left;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1199px) {
-  .create-button {
-    text-align: right;
-  }
-}
-
-@media (min-width: 1200px) {
-  .create-button {
-    text-align: right;
-  }
-}
