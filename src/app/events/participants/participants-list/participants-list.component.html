@@ -1,3 +1,25 @@
-<p>
-  participants works!
-</p>
+<div class="row title-wrapper">
+  <div class="col-12 clearfix">
+    <h1 class="display-4 float-left">Participantes</h1>
+    <button type="button" (click)=onNewEvent() class="btn btn-secondary btn-lg float-right">Nuevo Participante</button>
+  </div>
+</div>
+<div>
+  <table class="table">
+    <thead class="thead-default">
+      <tr>
+        <th>Ap. Paterno</th>
+        <th>Ap. Materno</th>
+        <th>Nombre</th>
+        <th>Registrado</th>
+        <th>Categoría</th>
+        <th>A pagar (BOB)</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr app-participant-item *ngFor="let participant of participants" [participant]="participant"></tr>
+    </tbody>
+  </table>
+</div>

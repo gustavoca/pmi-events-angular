@@ -17,6 +17,11 @@ export class EventsComponent implements OnInit {
   }
 
   newEvent() {
+  }
 
+  updateEvent() {
+  }
+
+  deleteEvent() {
   }
 }
