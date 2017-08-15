@@ -8,18 +8,6 @@ const BASEURL = 'http://localhost:3000/api/';
 
 @Injectable()
 export class EventService {
-  private events: Array<Event> = [new Event(1, "Prueba", "bla blabla", 123, 5),
-                                  new Event(2, "Prueba", "bla blabla", 123, 10)];
-
-
-  private participants: Array<Participant> = [new Participant(1,  "Gustavo",
-                                                                  "Calderón",
-                                                                  "Añez",
-                                                                  new Date(),
-                                                                  70407545,
-                                                                  "g.calderonxd@gmail.com",
-                                                                  "1234")];
-
   constructor(private http: Http) {}
 
   allEvents() {
@@ -31,7 +19,20 @@ export class EventService {
     );
   }
 
-  save() {
+  save(event) {
+    return this.http.post(BASEURL + '/events', event).map(
+      (response: Response) => {
+        return "success";
+      }
+    );
+  }
+
+  update(event) {
+    return this.http.put(BASEURL + '/events', event).map(
+      (response: Response) => {
+        return "success";
+      }
+    );
   }
 
   allParticipantsByEventId(eventId: string) {

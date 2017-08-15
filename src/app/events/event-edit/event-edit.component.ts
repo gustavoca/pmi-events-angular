@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -42,18 +42,67 @@ export class EventEditComponent implements OnInit {
   }
 
   populateForm() {
-    console.log("", this.event);
-    console.log("", this.eventForm);
+    this.participantCategories = this.event.participantCategories;
     this.eventForm.form.patchValue({
-      name              : this.event.name,
-      preSalePercentage : this.event.preSalePercentage,
-      description       : this.event.description
+      name                  : this.event.name,
+      preSalePercentage     : this.event.preSalePercentage,
+      description           : this.event.description,
+      participantCategories : {1: "212", 2: "1123"}
     });
-    
   }
 
-  onAddEvent(form) {
-    console.log(form.value);
+  formatCategories() {
+    return this.participantCategories.reduce( (formated, current) => {
+      formated[current.id] = current.price;
+      return formated;
+    }, {});
+  }
+
+  onSubmit(form) {
+    let values = form.value;
+    if (this.event) {
+      console.log("UPDATING");
+      this.updateEvent(values);
+    }
+    else { //new event
+      let event = new Event(null,
+                            values.name,
+                            values.description,
+                            values.preSalePercentage,
+                            [],
+                            this.createParticipantCategories(values.participantCategories));
+      this.eventService.save(event).subscribe(
+        (result) => {
+          console.log(result);
+        },
+        (error) => console.log(error)
+      );
+    }
+  }
+
+  updateEvent(values) {
+    this.event.name = values.name;
+    this.event.description = values.description;
+    this.event.preSalePercentage = values.preSalePercentage;
+    this.event.participantCategories = this.createParticipantCategories(values.participantCategories);
+    this.eventService.update(event).subscribe(
+      (result) => {
+        console.log(result);
+      },
+      (error) => console.log(error)
+    );
+  }
+
+  createParticipantCategories(categories: Object) {
+    let newParticipantCategories = [];
+    for (let index in categories) {
+      newParticipantCategories.push(new ParticipantCategory(
+        index,
+        this.participantCategories.filter(cat => cat.id === index)[0].name,
+        categories[index]
+      ));
+    }
+    return newParticipantCategories;
   }
 
 }

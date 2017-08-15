@@ -3,11 +3,11 @@
     <h1>Nuevo Evento</h1>
   </div>
   <div class="col-auto mt-2 mr-4">
-    <button [disabled]="!f.valid" type="submit" class="btn btn-primary">Guardar</button>
+    <button [disabled]="!f.valid" form="ngEventForm" type="submit" class="btn btn-primary">Guardar</button>
     <a href="#">Cancelar</a>
   </div>
 </div>
-<form (ngSubmit)="onAddEvent(f)" #f="ngForm">
+<form (ngSubmit)="onSubmit(f)" #f="ngForm" id="ngEventForm">
   <div class="row">
     <div class="col-sm-12 col-lg-6 form-group">
       <div class="form-group" [ngClass]="{'has-danger': name.errors && (name.dirty || name.touched)}">
@@ -48,7 +48,7 @@
         <textarea class="form-control" id="description" name="description" rows="3" ngModel></textarea>
       </div>
     </div>
-    <div class="col-sm-12 col-lg-6 form-group">
+    <div class="col-sm-12 col-lg-6 form-group" ngModelGroup="participantCategories">
       <legend>Precios por categoría</legend>
       <div *ngFor="let category of participantCategories">
         <div class="form-group row" [ngClass]="{'has-danger': price.errors && (price.dirty || price.touched)}">
