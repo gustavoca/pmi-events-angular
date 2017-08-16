@@ -1,0 +1,64 @@
+<div class="row title-wrapper">
+  <div class="col">
+    <h1>Nuevo Participante</h1>
+  </div>
+  <div class="col-auto mt-2 mr-4">
+    <!-- <button [disabled]="!participant.valid" type="submit" class="btn btn-primary">Guardar</button> -->
+    <button [disabled]="!participant.valid" type="submit" class="btn btn-primary" (click)="logData(participant)">Guardar</button>
+    <a href="#">Cancelar</a>
+  </div>
+</div>
+<form (ngSubmit)="onAddParticipant(participant)" #participant="ngForm">
+  <div class="row">
+    <div class="col-sm-12 col-lg-6">
+      <div class="form-group row" [ngClass]="{'has-danger': date.errors && (date.dirty || date.touched)}">
+        <label for="date" class="col-4 col-form-label">Fecha de registro</label>
+        <div class="col-8">
+          <input type="date" class="form-control" name="date" required id="date" #date="ngModel" ngModel>
+          <div *ngIf="date.errors && (date.dirty || date.touched)">
+            <div class="form-control-feedback" [hidden]="!date.errors.required">
+              Debe ingresar la fecha de registro.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-danger': name.errors && (name.dirty || name.touched)}">
+        <label for="name" class="col-4 col-form-label">Nombre</label>
+        <div class="col-8">
+          <input type="text" class="form-control" name="name" required id="name" #name="ngModel" ngModel>
+          <div *ngIf="name.errors && (name.dirty || name.touched)">
+            <div class="form-control-feedback" [hidden]="!name.errors.required">
+              Debe ingresar un nombre.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-danger': this.surname.errors && (this.surname.dirty || this.surname.touched)}">
+        <label for="surname" class="col-4 col-form-label">Apellido Paterno</label>
+        <div class="col-8">
+          <input type="text" class="form-control" name="surname" required id="surname" #surname="ngModel" ngModel>
+          <div *ngIf="surname.errors && (surname.dirty || surname.touched)">
+            <div class="form-control-feedback" [hidden]="!surname.errors.required">
+              Debe ingresar un apellido paterno.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-danger': secondSurname.errors && (secondSurname.dirty || secondSurname.touched)}">
+        <label for="secondSurname" class="col-4 col-form-label">Apellido Materno</label>
+        <div class="col-8">
+          <input type="text" class="form-control" name="secondSurname" id="secondSurname" #secondSurname="ngModel" ngModel>
+          <div *ngIf="secondSurname.errors && (secondSurname.dirty || secondSurname.touched)">
+            <div class="form-control-feedback" [hidden]="!secondSurname.errors.required">
+              Debe ingresar un apellido materno.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-12 col-lg-6 form-group">
+
+    </div>
+  </div>
+</form>
