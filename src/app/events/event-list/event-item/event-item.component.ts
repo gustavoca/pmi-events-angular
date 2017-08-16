@@ -17,13 +17,13 @@ export class EventItemComponent implements OnInit {
   }
 
   onEditEvent() {
-    console.log("exec edit");
+    console.log('exec edit');
     this.router.navigate([this.event.id, 'edit'], {relativeTo: this.route });
   }
 
   onNewParticipant() {
-    console.log("exec particp");
-    this.router.navigate([this.event.id,'participant', 'new'], {relativeTo: this.route });
+    console.log('exec particip');
+    this.router.navigate([this.event.id, 'participants', 'new'], {relativeTo: this.route });
   }
 
   onDeleteEvent() {

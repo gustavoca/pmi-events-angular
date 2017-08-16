@@ -4,3 +4,6 @@ body {
   padding-top: 5rem;
 }
 
+.input-group.is-invalid  ~ .invalid-feedback {
+    display: block;
+}

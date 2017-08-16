@@ -2,11 +2,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-participants',
-  templateUrl: './participants.component.html',
-  styleUrls: ['./participants.component.css']
+  selector: 'app-participants-list',
+  templateUrl: './participants-list.component.html',
+  styleUrls: ['./participants-list.component.css']
 })
-export class ParticipantsComponent implements OnInit {
+export class ParticipantsListComponent implements OnInit {
 
   constructor() { }
 
