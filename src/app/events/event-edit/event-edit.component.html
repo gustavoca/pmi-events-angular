@@ -3,14 +3,14 @@
     <h1>Nuevo Evento</h1>
   </div>
   <div class="col-auto mt-2 mr-4">
-    <button [disabled]="!f.valid" form="ngEventForm" type="submit" class="btn btn-primary">Guardar</button>
+    <button form="ngEventForm" type="submit" class="btn btn-primary">Guardar</button>
     <a href="#">Cancelar</a>
   </div>
 </div>
 <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" id="ngEventForm">
   <div class="row">
     <div class="col-sm-12 col-lg-6 form-group">
-      <div class="form-group">
+      <div class="form-group" [ngClass]="{'has-danger': !eventForm.get('participantCategories').valid}">
         <label for="name">Nombre</label>
         <input type="text" id="name"
                           class="form-control"
@@ -28,24 +28,19 @@
       </div>
       <div class="form-group">
         <label for="description">Descripción</label>
-        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
       </div>
     </div>
     <div class="col-sm-12 col-lg-6 form-group" formArrayName="participantCategories">
       <legend>Precios por categoría</legend>
-      <div *ngFor="let categoryControl of eventForm.get('participantCategories').controls">
-        <div class="form-group row">
-          <label class="col-form-label col-sm-12 col-lg-7" for="{{categoryControl.name}}">{{categoryControl.get('name')}}</label>
+      <div *ngFor="let categoryControl of eventForm.get('participantCategories').controls; let i=index">
+        <div formGroupName="{{i}}" class="form-group row">
+          <label class="col-form-label col-sm-12 col-lg-7">{{categoryControl.value.name}}</label>
           <div class="col-sm-12 col-lg-5">
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
               <div class="input-group-addon">BOB</div>
-              <input  type="number" [formControlName]="categoryControl.id">
+              <input  type="number" formControlName="price">
             </div>
-            <!-- <div *ngIf="price.errors && (price.dirty || price.touched)">
-              <div class="form-control-feedback">
-                El precio debe ser positivo.
-              </div>
-            </div> -->
           </div>
         </div>
       </div>

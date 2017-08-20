@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { NgForm, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { ParticipantCategoryService } from '../participantCategory.service';
@@ -26,39 +26,51 @@ export class EventEditComponent implements OnInit {
               private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.participantCategories = this.participantCategoryService.all();
     this.setupEventForm();
+    this.participantCategories = this.participantCategoryService.all();
     this.route.params
       .subscribe(
         (params: Params) => {
           this.id = params['id'];
-          this.eventService.eventById(this.id).subscribe(
-            (event: Event) => {
-              this.event = event;
-              this.populateForm();
-            },
-            (error) => console.log(error)
-          );
+          if (this.id) {
+            this.eventService.eventById(this.id).subscribe(
+              (event: Event) => {
+                this.event = event;
+                this.populateForm();
+              },
+              (error) => console.log(error)
+            );
+          }
+          else {
+            this.loadCategories();
+          }
           // this.editMode = params['id'] != null;
         }
       );
   }
 
-  setupEventForm() {
-    this.eventForm = new FormGroup({
-      'name': new FormControl(null),
-      'preSalePercentage': new FormControl(null),
-      'description': new FormControl(null),
-      'participantCategories': new FormArray(this.createCategoriesForm())
+  loadCategories() {
+    const control = <FormArray>this.eventForm.controls.participantCategories;
+    this.participantCategories.forEach(category => {
+      control.push(this.createCategoryForm(category));
     });
   }
 
-  createCategoriesForm() {
-    return this.participantCategories.map(category => this.fb.group({
+  setupEventForm() {
+    this.eventForm = this.fb.group({
+      'name': new FormControl(null, [Validators.required]),
+      'preSalePercentage': new FormControl(null),
+      'description': new FormControl(null),
+      'participantCategories': this.fb.array([])
+    });
+  }
+
+  createCategoryForm(category) {
+    return this.fb.group({
         'name': category.name,
         'price': category.price,
         'id': category.id }
-    ));
+    );
   }
 
   populateForm() {
@@ -68,6 +80,7 @@ export class EventEditComponent implements OnInit {
       preSalePercentage     : this.event.preSalePercentage,
       description           : this.event.description
     });
+    this.loadCategories();
   }
 
   formatCategories() {
@@ -103,7 +116,7 @@ export class EventEditComponent implements OnInit {
     this.event.name = values.name;
     this.event.description = values.description;
     this.event.preSalePercentage = values.preSalePercentage;
-    this.event.participantCategories = this.createParticipantCategories(values.participantCategories);
+    this.event.participantCategories = values.participantCategories;
     this.eventService.update(this.event).subscribe(
       (result) => {
         console.log(result);
@@ -113,6 +126,7 @@ export class EventEditComponent implements OnInit {
   }
 
   createParticipantCategories(categories: Object) {
+    console.log(categories);
     let newParticipantCategories = [];
     for (let index in categories) {
       newParticipantCategories.push(new ParticipantCategory(
