@@ -1,7 +1,7 @@
 'use strict';
 import { Component, OnInit } from '@angular/core';
 
-import { EventService } from '../../event.service';
+import { ParticipantService } from '../../participant.service';
 import { Participant } from '../../participant.model';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -13,13 +13,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class ParticipantsListComponent implements OnInit {
 
   participants: Array<Participant>;
-  constructor(private eventService: EventService,
+  constructor(private participantService: ParticipantService,
               private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     let eventId = this.route.snapshot.params['id'];
-    this.eventService.allParticipantsByEventId(eventId).subscribe(
+    this.participantService.all(eventId).subscribe(
       (participants) => this.participants = participants,
       (error) => console.log(error)
     );

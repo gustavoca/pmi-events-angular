@@ -1,0 +1,77 @@
+<div class="row title-wrapper">
+  <div class="col">
+    <h1>Nuevo Evento</h1>
+  </div>
+  <div class="col-auto mt-2 mr-4">
+    <button [disabled]="!f.valid" form="ngEventForm" type="submit" class="btn btn-primary">Guardar</button>
+    <a href="#">Cancelar</a>
+  </div>
+</div>
+<form (ngSubmit)="onSubmit(f)" #f="ngForm" id="ngEventForm">
+  <div class="row">
+    <div class="col-sm-12 col-lg-6 form-group">
+      <div class="form-group" [ngClass]="{'has-danger': name.errors && (name.dirty || name.touched)}">
+        <label for="name">Nombre</label>
+        <input type="text" id="name"
+                          class="form-control"
+                          name="name"
+                          required
+                          #name="ngModel"
+                          ngModel>
+        <div *ngIf="name.errors && (name.dirty || name.touched)">
+          <div class="form-control-feedback" [hidden]="!name.errors.required">
+            El evento debe tener un nombre.
+          </div>
+        </div>
+      </div>
+      <div class="form-group" [ngClass]="{'has-danger': preSalePercentage.errors && (preSalePercentage.dirty || preSalePercentage.touched)}">
+        <label for="preSalePercentage">Descuento por Pre-venta</label>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <div class="input-group-addon">%</div>
+          <input  type="number"
+                  id="preSalePercentage"
+                  class="form-control"
+                  name="preSalePercentage"
+                  required
+                  pattern="^[0-9]+[0-9]*$"
+                  ngModel
+                  #preSalePercentage="ngModel">
+        </div>
+        <div *ngIf="preSalePercentage.errors && (preSalePercentage.dirty || preSalePercentage.touched)">
+          <div class="form-control-feedback" [hidden]="!preSalePercentage.errors.required">
+            El evento debe contener un porcentaje.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea class="form-control" id="description" name="description" rows="3" ngModel></textarea>
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-6 form-group" ngModelGroup="participantCategories">
+      <legend>Precios por categoría</legend>
+      <div *ngFor="let category of participantCategories">
+        <div class="form-group row" [ngClass]="{'has-danger': price.errors && (price.dirty || price.touched)}">
+          <label class="col-form-label col-sm-12 col-lg-7" for="{{category.name}}">{{category.name}}</label>
+          <div class="col-sm-12 col-lg-5">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <div class="input-group-addon">BOB</div>
+              <input  type="number"
+                      id="{{category.id}}"
+                      class="form-control"
+                      name="{{category.id}}"
+                      pattern="^[0-9]+[0-9]*$"
+                      ngModel
+                      #price="ngModel">
+            </div>
+            <div *ngIf="price.errors && (price.dirty || price.touched)">
+              <div class="form-control-feedback">
+                El precio debe ser positivo.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

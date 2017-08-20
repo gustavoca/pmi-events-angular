@@ -3,26 +3,18 @@
     <h1>Nuevo Evento</h1>
   </div>
   <div class="col-auto mt-2 mr-4">
-    <!-- <button [disabled]="!f.valid" type="submit" class="btn btn-primary">Guardar</button> -->
-    <button type="submit" (click)="onAddEvent(f)"class="btn btn-primary">Guardar</button>
+    <button form="ngEventForm" type="submit" class="btn btn-primary">Guardar</button>
     <a href="#">Cancelar</a>
   </div>
 </div>
-<form class="" (ngSubmit)="onAddEvent(f)" #f="ngForm" id="ngEventForm">
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()" id="ngEventForm">
   <div class="row">
     <div class="col-sm-12 col-lg-6 form-group">
-      <div class="form-group">
+      <div class="form-group" [ngClass]="{'has-danger': !eventForm.get('participantCategories').valid}">
         <label for="name">Nombre</label>
         <input type="text" id="name"
                           class="form-control"
-                          name="name"
-                          required
-                          #name="ngModel"
-                          ngModel
-                          [ngClass]="{'is-invalid': name.errors && (name.dirty || name.touched)}">
-        <div class="invalid-feedback" *ngIf="name.errors && (name.dirty || name.touched)">
-          El evento debe tener un nombre.
-        </div>
+                          formControlName="name">
       </div>
       <div class="form-group">
         <label for="preSalePercentage">Descuento por Pre-venta</label>
@@ -31,41 +23,23 @@
           <input  type="number"
                   id="preSalePercentage"
                   class="form-control"
-                  name="preSalePercentage"
-                  required
-                  pattern="^[0-9]+\.?[0-9]*$"
-                  #preSalePercentage="ngModel"
-                  ngModel
-                  [ngClass]="{'is-invalid': preSalePercentage.errors && (preSalePercentage.dirty || preSalePercentage.touched)}">
-        </div>
-        <div class="invalid-feedback" *ngIf="preSalePercentage.errors && (preSalePercentage.dirty || preSalePercentage.touched)">
-          El evento debe contener un porcentaje.
+                  formControlName="preSalePercentage">
         </div>
       </div>
       <div class="form-group">
         <label for="description">Descripción</label>
-        <textarea class="form-control" id="description" name="description" rows="3" ngModel></textarea>
+        <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
       </div>
     </div>
-    <div class="col-sm-12 col-lg-6 form-group">
+    <div class="col-sm-12 col-lg-6 form-group" formArrayName="participantCategories">
       <legend>Precios por categoría</legend>
-      <div *ngFor="let category of participantCategories">
-        <div class="form-group row">
-          <label class="col-form-label col-sm-12 col-lg-7" for="{{category.name}}">{{category.name}}</label>
+      <div *ngFor="let categoryControl of eventForm.get('participantCategories').controls; let i=index">
+        <div formGroupName="{{i}}" class="form-group row">
+          <label class="col-form-label col-sm-12 col-lg-7">{{categoryControl.value.name}}</label>
           <div class="col-sm-12 col-lg-5">
             <div class="input-group mb-2 mr-sm-2 mb-sm-0" [ngClass]="{'is-invalid': price.errors && (price.dirty || price.touched)}">
               <div class="input-group-addon">BOB</div>
-              <input  type="number"
-                      id="{{category.id}}"
-                      class="form-control"
-                      name="{{category.id}}"
-                      pattern="^[0-9]+\.?[0-9]*$"
-                      ngModel
-                      #price="ngModel"
-                      [ngClass]="{'is-invalid': price.errors && (price.dirty || price.touched)}">
-            </div>
-            <div class="invalid-feedback" *ngIf="price.errors && (price.dirty || price.touched)">
-              El precio debe ser positivo.
+              <input  type="number" formControlName="price">
             </div>
           </div>
         </div>
