@@ -6,7 +6,7 @@ import { Participant } from '../../participant.model';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-participants',
+  selector: 'app-participants-list',
   templateUrl: './participants-list.component.html',
   styleUrls: ['./participants-list.component.css']
 })

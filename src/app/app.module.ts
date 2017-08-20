@@ -15,7 +15,7 @@ import { EventItemComponent } from './events/event-list/event-item/event-item.co
 import { AppRoutingModule } from './app-routing.module';
 import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { EventShowComponent } from './events/event-show/event-show.component';
-import { ParticipantItemComponent } from './events/participants/participants-list/participant-item/participant-item.component';
+import { ParticipantsEditComponent } from './events/participants-edit/participants-edit.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import { ParticipantItemComponent } from './events/participants/participants-lis
     EventItemComponent,
     EventEditComponent,
     EventShowComponent,
-    ParticipantItemComponent
+    ParticipantsEditComponent,
+    ParticipantsListComponent
   ],
   imports: [
     NgbModule.forRoot(),

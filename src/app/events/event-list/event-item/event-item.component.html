@@ -1,12 +1,14 @@
-<td>{{event.name}}</td>
-<td>
-  <button class="btn btn-secondary" (click)=onNewParticipant()>
-    <i class="fa fa-user-o" aria-hidden="true"></i>
+<th class="align-middle" scope="row">{{event.id}}</th>
+<td class="align-middle">{{event.name}}</td>
+<td class="align-middle">{{event.participants}}</td>
+<td class="align-middle">
+  <button class="btn btn-light" (click)=onNewParticipant()>
+    <i class="fa fa-user-plus" aria-hidden="true"></i>
   </button>
-  <button class="btn btn-secondary"(click)=onEditEvent() >
+  <button class="btn btn-light"(click)=onEditEvent() >
     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
   </button>
-  <button class="btn btn-secondary" (click)=onDeleteEvent()>
-    <i class="fa fa-times" aria-hidden="true"></i>
+  <button class="btn btn-light" (click)=onDeleteEvent()>
+    <i class="fa fa-trash" aria-hidden="true"></i>
   </button>
 </td>
