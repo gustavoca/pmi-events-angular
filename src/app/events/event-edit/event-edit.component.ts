@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { ParticipantCategoryService } from '../participantCategory.service';
@@ -13,7 +13,8 @@ import { EventService } from '../event.service';
   styleUrls: ['./event-edit.component.css']
 })
 export class EventEditComponent implements OnInit {
-  @ViewChild('f') eventForm: NgForm;
+  // @ViewChild('f') eventForm: NgForm;
+  eventForm: FormGroup;
   id: string;
   editMode: boolean;
   participantCategories: Array<ParticipantCategory>;
@@ -21,10 +22,12 @@ export class EventEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private participantCategoryService: ParticipantCategoryService,
-              private eventService: EventService) {}
+              private eventService: EventService,
+              private fb: FormBuilder) {}
 
   ngOnInit() {
     this.participantCategories = this.participantCategoryService.all();
+    this.setupEventForm();
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -41,13 +44,29 @@ export class EventEditComponent implements OnInit {
       );
   }
 
+  setupEventForm() {
+    this.eventForm = new FormGroup({
+      'name': new FormControl(null),
+      'preSalePercentage': new FormControl(null),
+      'description': new FormControl(null),
+      'participantCategories': new FormArray(this.createCategoriesForm())
+    });
+  }
+
+  createCategoriesForm() {
+    return this.participantCategories.map(category => this.fb.group({
+        'name': category.name,
+        'price': category.price,
+        'id': category.id }
+    ));
+  }
+
   populateForm() {
     this.participantCategories = this.event.participantCategories;
-    this.eventForm.form.patchValue({
+    this.eventForm.patchValue({
       name                  : this.event.name,
       preSalePercentage     : this.event.preSalePercentage,
-      description           : this.event.description,
-      participantCategories : {1: "212", 2: "1123"}
+      description           : this.event.description
     });
   }
 
@@ -58,8 +77,8 @@ export class EventEditComponent implements OnInit {
     }, {});
   }
 
-  onSubmit(form) {
-    let values = form.value;
+  onSubmit() {
+    let values = this.eventForm.value;
     if (this.event) {
       console.log("UPDATING");
       this.updateEvent(values);
