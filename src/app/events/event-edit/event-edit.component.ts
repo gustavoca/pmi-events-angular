@@ -85,7 +85,7 @@ export class EventEditComponent implements OnInit {
     this.event.description = values.description;
     this.event.preSalePercentage = values.preSalePercentage;
     this.event.participantCategories = this.createParticipantCategories(values.participantCategories);
-    this.eventService.update(event).subscribe(
+    this.eventService.update(this.event).subscribe(
       (result) => {
         console.log(result);
       },
