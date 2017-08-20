@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { EventShowComponent } from './events/event-show/event-show.component';
 import { ParticipantsEditComponent } from './events/participants-edit/participants-edit.component';
+import { ParticipantItemComponent } from './events/participants/participants-list/participant-item/participant-item.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { ParticipantsEditComponent } from './events/participants-edit/participan
     EventEditComponent,
     EventShowComponent,
     ParticipantsEditComponent,
-    ParticipantsListComponent
+    ParticipantItemComponent
   ],
   imports: [
     NgbModule.forRoot(),

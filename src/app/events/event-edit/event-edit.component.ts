@@ -54,12 +54,13 @@ export class EventEditComponent implements OnInit {
     this.participantCategories.forEach(category => {
       control.push(this.createCategoryForm(category));
     });
+    console.log(control.controls);
   }
 
   setupEventForm() {
     this.eventForm = this.fb.group({
       'name': new FormControl(null, [Validators.required]),
-      'preSalePercentage': new FormControl(null),
+      'preSalePercentage': new FormControl(null, [Validators.required]),
       'description': new FormControl(null),
       'participantCategories': this.fb.array([])
     });
@@ -68,9 +69,9 @@ export class EventEditComponent implements OnInit {
   createCategoryForm(category) {
     return this.fb.group({
         'name': category.name,
-        'price': category.price,
-        'id': category.id }
-    );
+        'price': [category.price, [Validators.pattern('^[0-9]*$')]],
+        'id': category.id
+    });
   }
 
   populateForm() {
@@ -102,7 +103,7 @@ export class EventEditComponent implements OnInit {
                             values.description,
                             values.preSalePercentage,
                             [],
-                            this.createParticipantCategories(values.participantCategories));
+                            values.participantCategories);
       this.eventService.save(event).subscribe(
         (result) => {
           console.log(result);
@@ -126,7 +127,6 @@ export class EventEditComponent implements OnInit {
   }
 
   createParticipantCategories(categories: Object) {
-    console.log(categories);
     let newParticipantCategories = [];
     for (let index in categories) {
       newParticipantCategories.push(new ParticipantCategory(
