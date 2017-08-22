@@ -69,7 +69,7 @@ export class EventEditComponent implements OnInit {
   createCategoryForm(category) {
     return this.fb.group({
         'name': category.name,
-        'price': [category.price, [Validators.pattern('^[0-9]*$')]],
+        'price': [category.price, [Validators.pattern('^[0-9]+\.?[0-9]*$')]],
         'id': category.id
     });
   }

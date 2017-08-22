@@ -3,7 +3,7 @@
     <h1>Nuevo Evento</h1>
   </div>
   <div class="col-auto mt-2 mr-4">
-    <button form="ngEventForm" type="submit" class="btn btn-primary">Guardar</button>
+    <button form="ngEventForm" type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">Guardar</button>
     <a href="#">Cancelar</a>
   </div>
 </div>
@@ -22,17 +22,18 @@
       </div>
       <div class="form-group">
         <label for="preSalePercentage">Descuento por Pre-venta</label>
-        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+        <div class="input-group"
+             [ngClass]="{'is-invalid': eventForm.get('preSalePercentage').errors && (eventForm.get('preSalePercentage').dirty || eventForm.get('preSalePercentage').touched)}">
           <div class="input-group-addon">%</div>
             <input  type="number"
                     id="preSalePercentage"
                     class="form-control"
-                    required
                     [ngClass]="{'is-invalid': eventForm.get('preSalePercentage').errors && (eventForm.get('preSalePercentage').dirty || eventForm.get('preSalePercentage').touched)}"
+                    required
                     formControlName="preSalePercentage">
-            <div class="invalid-feedback" *ngIf="eventForm.get('preSalePercentage').errors && (eventForm.get('preSalePercentage').dirty || eventForm.get('preSalePercentage').touched)">
+        </div>
+        <div class="invalid-feedback" *ngIf="eventForm.get('preSalePercentage').errors && (eventForm.get('preSalePercentage').dirty || eventForm.get('preSalePercentage').touched)">
               El evento debe contener un porcentaje.
-            </div>
         </div>
       </div>
       <div class="form-group">
@@ -46,9 +47,12 @@
         <div formGroupName="{{i}}" class="form-group row">
           <label class="col-form-label col-sm-12 col-lg-7">{{categoryControl.value.name}}</label>
           <div class="col-sm-12 col-lg-5">
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group">
               <div class="input-group-addon">BOB</div>
-              <input  type="number" formControlName="price" [ngClass]="{'is-invalid': categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)}">
+              <input  type="text"
+                      class="form-control"
+                      [ngClass]="{'is-invalid': categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)}"
+                      formControlName="price" >
             </div>
           </div>
         </div>
