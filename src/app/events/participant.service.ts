@@ -20,10 +20,28 @@ export class ParticipantService {
     );
   }
 
+  find(eventId, participantId) {
+    return this.http.get(`${environment.BASEURL}/events/${eventId}/participants/${participantId}`).map(
+      (response: Response) => {
+        let events = response.json();
+        return events;
+      }
+    );
+  }
+
   save(eventId, participant) {
     return this.http.post(`${environment.BASEURL}/events/${eventId}/participants`, participant).map(
       (response: Response) => {
         return "success";
+      }
+    );
+  }
+
+  delete(eventId, participantId) {
+    return this.http.delete(`${environment.BASEURL}/events/${eventId}/participants/${participantId}`).map(
+      (response: Response) => {
+        let res = response.json();
+        return res;
       }
     );
   }

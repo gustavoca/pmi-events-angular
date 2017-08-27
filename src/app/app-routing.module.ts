@@ -17,6 +17,7 @@ const appRoutes: Routes = [
       { path: 'new', component: EventEditComponent },
       {
         path: ':id/participants', component: ParticipantsComponent, children: [
+          { path: ':participantId/edit', component: ParticipantsEditComponent },
           { path: 'new', component: ParticipantsEditComponent },
           { path: '', component: ParticipantsListComponent }
         ]

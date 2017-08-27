@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, RequestOptions } from '@angular/http';
 
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -17,6 +19,8 @@ import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { EventShowComponent } from './events/event-show/event-show.component';
 import { ParticipantsEditComponent } from './events/participants-edit/participants-edit.component';
 import { ParticipantItemComponent } from './events/participants/participants-list/participant-item/participant-item.component';
+import { AlertService } from './_services/alert.service';
+import { AlertComponent } from './_directives/alert.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,8 @@ import { ParticipantItemComponent } from './events/participants/participants-lis
     EventEditComponent,
     EventShowComponent,
     ParticipantsEditComponent,
-    ParticipantItemComponent
+    ParticipantItemComponent,
+    AlertComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -39,9 +44,11 @@ import { ParticipantItemComponent } from './events/participants/participants-lis
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxQRCodeModule
   ],
   providers: [
+    AlertService
   ],
   bootstrap: [AppComponent]
 })

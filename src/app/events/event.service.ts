@@ -37,8 +37,10 @@ export class EventService {
     );
   }
 
-  eventById(eventId: string) {
-    return this.http.get(`${environment.BASEURL}/events/${eventId}`).map(
+  eventById(eventId: string, params = undefined) {
+    let fields;
+    if (params && params.fields) fields = `?filter=${encodeURIComponent(JSON.stringify(params))}`;
+    return this.http.get(`${environment.BASEURL}/events/${eventId}${fields ? fields : ''}`).map(
       (response: Response) => {
         let event = response.json();
         return event;

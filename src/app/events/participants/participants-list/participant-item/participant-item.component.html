@@ -6,19 +6,24 @@
 <td>{{participant.names}}</td>
 <td>{{participant.names}}</td>
 <td>
-  <button class="btn btn-secondary" (click)=onNewParticipant()>
-    <i class="fa fa-user-o" aria-hidden="true"></i>
-  </button>
-  <button class="btn btn-secondary" (click)=onNewParticipant()>
-    <i class="fa fa-user-o" aria-hidden="true"></i>
-  </button>
-  <button class="btn btn-secondary" (click)=onNewParticipant()>
-    <i class="fa fa-user-o" aria-hidden="true"></i>
-  </button>
-  <button class="btn btn-secondary"(click)=onEditParticipant() >
-    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-  </button>
-  <button class="btn btn-secondary" (click)=onDeleteParticipant()>
-    <i class="fa fa-times" aria-hidden="true"></i>
-  </button>
+  <div class="btn-group">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-print" aria-hidden="true"></i>
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Comprobante</a>
+        <a class="dropdown-item" href="#">Credencial</a>
+      </div>
+    </div>
+  </div>
+    <button class="btn btn-secondary" (click)=onShowPayments()>
+      <i class="fa fa-money" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-secondary"(click)=onEditParticipant() >
+      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+    </button>
+    <button class="btn btn-secondary" (click)=onDeleteParticipant()>
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
 </td>

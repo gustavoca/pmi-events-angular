@@ -3,62 +3,194 @@
     <h1>Nuevo Participante</h1>
   </div>
   <div class="col-auto mt-2 mr-4">
-    <!-- <button [disabled]="!participant.valid" type="submit" class="btn btn-primary">Guardar</button> -->
-    <button [disabled]="!participant.valid" type="submit" class="btn btn-primary" (click)="logData(participant)">Guardar</button>
+    <button form="ngParticipantForm" type="submit" class="btn btn-primary" [disabled]="participantForm.invalid">Guardar</button>
     <a href="#">Cancelar</a>
   </div>
 </div>
-<form (ngSubmit)="onAddParticipant(participant)" #participant="ngForm">
+<form [formGroup]="participantForm" (ngSubmit)="onSubmit()" id="ngParticipantForm">
   <div class="row">
     <div class="col-sm-12 col-lg-6">
-      <div class="form-group row" [ngClass]="{'has-danger': date.errors && (date.dirty || date.touched)}">
-        <label for="date" class="col-4 col-form-label">Fecha de registro</label>
+      <div class="form-group row">
+        <label for="registeredAt" class="col-4 col-form-label">Fecha de registro</label>
         <div class="col-8">
-          <input type="date" class="form-control" name="date" required id="date" #date="ngModel" ngModel>
-          <div *ngIf="date.errors && (date.dirty || date.touched)">
-            <div class="form-control-feedback" [hidden]="!date.errors.required">
-              Debe ingresar la fecha de registro.
-            </div>
+          <input type="date" id="registeredAt"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('registeredAt').errors && (participantForm.get('registeredAt').dirty || participantForm.get('registeredAt').touched)}"
+                            formControlName="registeredAt">
+          <div class="invalid-feedback" *ngIf="participantForm.get('registeredAt').errors && (participantForm.get('registeredAt').dirty || participantForm.get('registeredAt').touched)">
+            El participante debe tener una fecha de registro.
           </div>
         </div>
       </div>
-      <div class="form-group row" [ngClass]="{'has-danger': name.errors && (name.dirty || name.touched)}">
-        <label for="name" class="col-4 col-form-label">Nombre</label>
+      <div class="form-group row">
+        <label for="names" class="col-4 col-form-label">Nombres</label>
         <div class="col-8">
-          <input type="text" class="form-control" name="name" required id="name" #name="ngModel" ngModel>
-          <div *ngIf="name.errors && (name.dirty || name.touched)">
-            <div class="form-control-feedback" [hidden]="!name.errors.required">
-              Debe ingresar un nombre.
-            </div>
+          <input type="text" id="names"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('names').errors && (participantForm.get('names').dirty || participantForm.get('names').touched)}"
+                            formControlName="names">
+          <div class="invalid-feedback" *ngIf="participantForm.get('names').errors && (participantForm.get('names').dirty || participantForm.get('names').touched)">
+            El participante debe tener un nombre.
           </div>
         </div>
       </div>
-      <div class="form-group row" [ngClass]="{'has-danger': this.surname.errors && (this.surname.dirty || this.surname.touched)}">
-        <label for="surname" class="col-4 col-form-label">Apellido Paterno</label>
+      <div class="form-group row">
+        <label for="firstSurname" class="col-4 col-form-label">Ap. Paterno</label>
         <div class="col-8">
-          <input type="text" class="form-control" name="surname" required id="surname" #surname="ngModel" ngModel>
-          <div *ngIf="surname.errors && (surname.dirty || surname.touched)">
-            <div class="form-control-feedback" [hidden]="!surname.errors.required">
-              Debe ingresar un apellido paterno.
-            </div>
+          <input type="text" id="firstSurname"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('firstSurname').errors && (participantForm.get('firstSurname').dirty || participantForm.get('firstSurname').touched)}"
+                            formControlName="firstSurname">
+          <div class="invalid-feedback" *ngIf="participantForm.get('firstSurname').errors && (participantForm.get('firstSurname').dirty || participantForm.get('firstSurname').touched)">
+            El participante debe tener un nombre.
           </div>
         </div>
       </div>
-      <div class="form-group row" [ngClass]="{'has-danger': secondSurname.errors && (secondSurname.dirty || secondSurname.touched)}">
-        <label for="secondSurname" class="col-4 col-form-label">Apellido Materno</label>
+      <div class="form-group row">
+        <label for="lastSurname" class="col-4 col-form-label">Ap. Materno</label>
         <div class="col-8">
-          <input type="text" class="form-control" name="secondSurname" id="secondSurname" #secondSurname="ngModel" ngModel>
-          <div *ngIf="secondSurname.errors && (secondSurname.dirty || secondSurname.touched)">
-            <div class="form-control-feedback" [hidden]="!secondSurname.errors.required">
-              Debe ingresar un apellido materno.
-            </div>
+          <input type="text" id="lastSurname"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('lastSurname').errors && (participantForm.get('lastSurname').dirty || participantForm.get('lastSurname').touched)}"
+                            formControlName="lastSurname">
+          <div class="invalid-feedback" *ngIf="participantForm.get('lastSurname').errors && (participantForm.get('lastSurname').dirty || participantForm.get('lastSurname').touched)">
+            El participante debe tener un nombre.
           </div>
         </div>
       </div>
-
+      <div class="form-group row">
+        <label for="phone" class="col-4 col-form-label">Teléfono</label>
+        <div class="col-8">
+          <input type="number" id="phone"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('phone').errors && (participantForm.get('phone').dirty || participantForm.get('phone').touched)}"
+                            formControlName="phone">
+          <div class="invalid-feedback" *ngIf="participantForm.get('phone').errors && (participantForm.get('phone').dirty || participantForm.get('phone').touched)">
+            El participante debe tener un nombre.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="email" class="col-4 col-form-label">E-mail</label>
+        <div class="col-8">
+          <input type="text" id="email"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('email').errors && (participantForm.get('email').dirty || participantForm.get('email').touched)}"
+                            formControlName="email">
+          <div class="invalid-feedback" *ngIf="participantForm.get('email').errors && (participantForm.get('email').dirty || participantForm.get('email').touched)">
+            El participante debe tener un nombre.
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-sm-12 col-lg-6 form-group">
-
+      <div class="form-group row">
+        <label for="categoryId" class="col-4 col-form-label">Categoría</label>
+        <div class="col-8">
+          <select class="form-control" id="categoryId" (change)=calculatePayment() formControlName="categoryId" [(ngModel)]="selectedCategoryId">
+            <option *ngFor="let categorie of categories">
+                 {{categorie.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="modality" class="col-4 col-form-label">Modalidad</label>
+        <div class="col-8">
+          <select class="form-control" (change)=calculatePayment()  id="modality" [(ngModel)]="selectedModality" formControlName="modality">
+            <option *ngFor="let modality of modalities">
+                 {{modality}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="total" class="col-4 col-form-label">Inversión</label>
+        <div class="col-8">
+          <div class="input-group">
+            <div class="input-group-addon">BOB</div>
+              <input  type="number"
+                      id="total"
+                      class="form-control"
+                      [(ngModel)]="currentTotal"
+                      [ngClass]="{'is-invalid': participantForm.get('total').errors && (participantForm.get('total').dirty || participantForm.get('total').touched)}"
+                      formControlName="total">
+          </div>
+          <div class="invalid-feedback" *ngIf="participantForm.get('total').errors && (participantForm.get('total').dirty || participantForm.get('total').touched)">
+                El evento debe contener un porcentaje.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="discount" class="col-4 col-form-label">Descuento</label>
+        <div class="col-8">
+          <div class="input-group">
+            <div class="input-group-addon">BOB</div>
+              <input  type="number"
+                      id="discount"
+                      class="form-control"
+                      [(ngModel)]="currentDiscount"
+                      [ngClass]="{'is-invalid': participantForm.get('discount').errors && (participantForm.get('discount').dirty || participantForm.get('discount').touched)}"
+                      formControlName="discount">
+          </div>
+          <div class="invalid-feedback" *ngIf="participantForm.get('discount').errors && (participantForm.get('discount').dirty || participantForm.get('discount').touched)">
+                El evento debe contener un porcentaje.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="toPay" class="col-4 col-form-label">A Pagar</label>
+        <div class="col-8">
+          <div class="input-group">
+            <div class="input-group-addon">BOB</div>
+              <input  type="number"
+                      id="toPay"
+                      [(ngModel)]="currentTotalToPay"
+                      class="form-control"
+                      [ngClass]="{'is-invalid': participantForm.get('toPay').errors && (participantForm.get('toPay').dirty || participantForm.get('toPay').touched)}"
+                      formControlName="toPay">
+          </div>
+          <div class="invalid-feedback" *ngIf="participantForm.get('toPay').errors && (participantForm.get('toPay').dirty || participantForm.get('toPay').touched)">
+                El evento debe contener un porcentaje.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="socialReason" class="col-4 col-form-label">Razón Social</label>
+        <div class="col-8">
+          <input type="text" id="socialReason"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('socialReason').errors && (participantForm.get('socialReason').dirty || participantForm.get('socialReason').touched)}"
+                            formControlName="socialReason">
+          <div class="invalid-feedback" *ngIf="participantForm.get('socialReason').errors && (participantForm.get('socialReason').dirty || participantForm.get('socialReason').touched)">
+            El participante debe tener un nombre.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="nit" class="col-4 col-form-label">Nit</label>
+        <div class="col-8">
+          <input type="number" id="nit"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('nit').errors && (participantForm.get('nit').dirty || participantForm.get('nit').touched)}"
+                            formControlName="nit">
+          <div class="invalid-feedback" *ngIf="participantForm.get('nit').errors && (participantForm.get('nit').dirty || participantForm.get('nit').touched)">
+            El participante debe tener un nombre.
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="note" class="col-4 col-form-label">Glosa</label>
+        <div class="col-8">
+          <input type="text" id="note"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': participantForm.get('note').errors && (participantForm.get('note').dirty || participantForm.get('note').touched)}"
+                            formControlName="note">
+          <div class="invalid-feedback" *ngIf="participantForm.get('note').errors && (participantForm.get('note').dirty || participantForm.get('note').touched)">
+            El participante debe tener un nombre.
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </form>
