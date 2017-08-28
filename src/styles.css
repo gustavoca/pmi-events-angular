@@ -7,3 +7,7 @@ body {
 .input-group.is-invalid  ~ .invalid-feedback {
     display: block;
 }
+
+a.dropdown-item {
+  cursor: pointer;
+}

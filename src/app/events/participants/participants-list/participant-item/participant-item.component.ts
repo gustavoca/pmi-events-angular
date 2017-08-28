@@ -5,6 +5,7 @@ import { Participant } from '../../../participant.model';
 import { ParticipantService } from '../../../participant.service';
 import { AlertService } from '../../../../_services/alert.service';
 import { MessageService } from '../../../../_services/message.service';
+import { MessageType } from '../../../../_models/message.model';
 
 @Component({
   selector: '[app-participant-item]',
@@ -28,11 +29,15 @@ export class ParticipantItemComponent implements OnInit {
     this.router.navigate([this.participant.id, 'edit'], {relativeTo: this.route });
   }
 
+  onShowQrCode() {
+    this.messageService.sendMessage(MessageType.showQr, JSON.stringify(this.participant));
+  }
+
   onDeleteParticipant() {
     this.participantService.delete(this.eventId, this.participant.id).subscribe(
       (res) => {
         this.alertService.success(`Participante eliminado.`);
-        this.messageService.sendMessage(this.participant.id);
+        this.messageService.sendMessage(MessageType.deleteParticipant, this.participant.id);
       },
       (error) => this.alertService.error(error)
     );

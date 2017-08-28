@@ -21,6 +21,7 @@ import { ParticipantsEditComponent } from './events/participants-edit/participan
 import { ParticipantItemComponent } from './events/participants/participants-list/participant-item/participant-item.component';
 import { AlertService } from './_services/alert.service';
 import { AlertComponent } from './_directives/alert.component';
+import { QrShowComponent } from './events/qr-show/qr-show.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AlertComponent } from './_directives/alert.component';
     EventShowComponent,
     ParticipantsEditComponent,
     ParticipantItemComponent,
-    AlertComponent
+    AlertComponent,
+    QrShowComponent
   ],
   imports: [
     NgbModule.forRoot(),
