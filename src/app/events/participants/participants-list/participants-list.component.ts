@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ViewChild } from '@angular/core';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ParticipantService } from '../../participant.service';
 import { Participant } from '../../participant.model';
@@ -19,15 +19,17 @@ import { MessageType } from '../../../_models/message.model';
 export class ParticipantsListComponent implements OnInit {
 
   @ViewChild('content') private content;
+
   eventId: string
   participants: Array<Participant>;
   participantItemSubscription: Subscription;
+
   constructor(private participantService: ParticipantService,
               private messageService: MessageService,
               private alertService: AlertService,
               private router: Router,
               private route: ActivatedRoute,
-              private modalService: NgbActiveModal) { }
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -41,7 +43,6 @@ export class ParticipantsListComponent implements OnInit {
         break;
       }
       case MessageType.showQr: {
-        console.log("should show qr", message.text);
         console.log(this.modalService);
         this.modalService.open(this.content);
         break;
@@ -50,7 +51,7 @@ export class ParticipantsListComponent implements OnInit {
 
   }
   subscribeToParticipantEvents() {
-    this.participantItemSubscription = this.messageService.getMessage().subscribe(this.onParticipantMessage);
+    this.participantItemSubscription = this.messageService.getMessage().subscribe(this.onParticipantMessage.bind(this));
   }
 
   initializeForm() {

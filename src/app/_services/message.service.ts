@@ -8,7 +8,7 @@ import { MessageType } from '../_models/message.model';
 export class MessageService {
     private subject = new Subject<any>();
 
-    sendMessage(type: MessageType, message: string) {
+    sendMessage(type: MessageType, message: any) {
         this.subject.next({type: type, text: message });
     }
 

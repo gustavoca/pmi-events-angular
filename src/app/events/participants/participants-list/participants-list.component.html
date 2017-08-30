@@ -25,7 +25,18 @@
 </div>
 
 <ng-template #content let-c="close" let-d="dismiss">
-  <app-qr-show></app-qr-show>
+  <div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <app-qr-show></app-qr-show>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+  </div>
 </ng-template>
 <!-- <div class="modal fade" id="qrView" tabindex="-1" role="dialog" aria-labelledby="qrViewLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

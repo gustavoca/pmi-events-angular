@@ -30,7 +30,7 @@ export class ParticipantItemComponent implements OnInit {
   }
 
   onShowQrCode() {
-    this.messageService.sendMessage(MessageType.showQr, JSON.stringify(this.participant));
+    this.messageService.sendMessage(MessageType.showQr, this.participant);
   }
 
   onDeleteParticipant() {

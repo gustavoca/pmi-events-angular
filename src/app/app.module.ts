@@ -2,10 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, RequestOptions } from '@angular/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { CheckInComponent } from './check-in/check-in.component';
@@ -41,13 +41,13 @@ import { QrShowComponent } from './events/qr-show/qr-show.component';
     QrShowComponent
   ],
   imports: [
-    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    NgbModule.forRoot()
   ],
   providers: [
     AlertService
