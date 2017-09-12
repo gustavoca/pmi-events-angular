@@ -25,6 +25,10 @@ export class ParticipantItemComponent implements OnInit {
   ngOnInit() {
   }
 
+  onShowPayments() {
+    this.messageService.sendMessage(MessageType.showPayments, this.participant);
+  }
+
   onEditParticipant() {
     this.router.navigate([this.participant.id, 'edit'], {relativeTo: this.route });
   }

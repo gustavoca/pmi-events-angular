@@ -1,0 +1,79 @@
+<div class="container">
+  <!-- <div class="row">
+    {{participant | json}}
+  </div> -->
+  <div class="form-group row">
+    <label for="toPay" class="col-4 col-form-label">A Pagar</label>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-addon">BOB</div>
+          <input  type="number"
+                  id="toPay"
+                  class="form-control"
+                  disabled
+                  [(ngModel)]="totalToPay">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="paid" class="col-4 col-form-label">Pagado</label>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-addon">BOB</div>
+          <input  type="number"
+                  id="paid"
+                  class="form-control"
+                  disabled
+                  [(ngModel)]="paid">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="onAccount" class="col-4 col-form-label">Debe</label>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-addon">BOB</div>
+          <input  type="number"
+                  id="onAccount"
+                  class="form-control"
+                  disabled
+                  [(ngModel)]="onAccount">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead class="thead-default">
+        <tr>
+          <th>Monto (Bs.)</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of participant._payments">
+          <td>{{payment.amount}}</td>
+          <td>{{payment.createdAt | date}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()" id="ngPaymentForm">
+      <div class="form-group row">
+        <label for="amount" class="col-4 col-form-label">Descuento</label>
+        <div class="col-8">
+          <div class="input-group">
+            <div class="input-group-addon">BOB</div>
+              <input  type="number"
+                      id="amount"
+                      class="form-control"
+                      formControlName="amount">
+          </div>
+        </div>
+      </div>
+      <div class="text-right">
+        <button form="ngPaymentForm" class="form-control" type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

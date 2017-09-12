@@ -22,6 +22,7 @@ import { ParticipantItemComponent } from './events/participants/participants-lis
 import { AlertService } from './_services/alert.service';
 import { AlertComponent } from './_directives/alert.component';
 import { QrShowComponent } from './events/qr-show/qr-show.component';
+import { PaymentsComponent } from './events/payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { QrShowComponent } from './events/qr-show/qr-show.component';
     ParticipantsEditComponent,
     ParticipantItemComponent,
     AlertComponent,
-    QrShowComponent
+    QrShowComponent,
+    PaymentsComponent
   ],
   imports: [
     BrowserModule,

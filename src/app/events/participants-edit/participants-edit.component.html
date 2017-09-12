@@ -85,9 +85,9 @@
     </div>
     <div class="col-sm-12 col-lg-6 form-group">
       <div class="form-group row">
-        <label for="categoryId" class="col-4 col-form-label">Categoría</label>
+        <label for="categoryName" class="col-4 col-form-label">Categoría</label>
         <div class="col-8">
-          <select class="form-control" id="categoryId" (change)=calculatePayment() formControlName="categoryId" [(ngModel)]="selectedCategoryId">
+          <select class="form-control" id="categoryName" (change)=calculatePayment() formControlName="categoryName" [(ngModel)]="categoryName">
             <option *ngFor="let categorie of categories">
                  {{categorie.name}}
             </option>
@@ -97,7 +97,7 @@
       <div class="form-group row">
         <label for="modality" class="col-4 col-form-label">Modalidad</label>
         <div class="col-8">
-          <select class="form-control" (change)=calculatePayment()  id="modality" [(ngModel)]="selectedModality" formControlName="modality">
+          <select class="form-control" (change)=calculatePayment()  id="modality" [(ngModel)]="participant.modality" formControlName="modality">
             <option *ngFor="let modality of modalities">
                  {{modality}}
             </option>

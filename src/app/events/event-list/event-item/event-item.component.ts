@@ -24,6 +24,10 @@ export class EventItemComponent implements OnInit {
     this.router.navigate([this.event.id, 'participants'], {relativeTo: this.route});
   }
 
+  onCheckIn() {
+    this.router.navigate([this.event.id, 'check-in'], {relativeTo: this.route});
+  }
+
   onDeleteEvent() {
     // this.router.navigate(['edit'], {relativeTo: this.route });
   }

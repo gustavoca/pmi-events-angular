@@ -5,16 +5,33 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Participant } from './participant.model';
+import { Filter } from '../_services/filter.service';
+
 const BASEURL = 'http://localhost:3000/api';
 
 @Injectable()
 export class ParticipantService {
   constructor(private http: Http) {}
 
-  all(eventId) {
-    return this.http.get(`${environment.BASEURL}/events/${eventId}/participants`).map(
+  all(eventId, filter?) {
+    // console.log(Filter.encode(filter));
+    return this.http.get(`${environment.BASEURL}/events/${eventId}/participants${filter ? Filter.encode(filter): ''}`).map(
       (response: Response) => {
-        let events = response.json();
+        let res = response.json();
+        let events = res.map(p => new Participant(p.id,
+                                                  p.names,
+                                                  p.firstSurname,
+                                                  p.lastSurname,
+                                                  p.registeredAt,
+                                                  p.phone,
+                                                  p.email,
+                                                  p.qrCode,
+                                                  p.categoryId,
+                                                  p.modality,
+                                                  p.socialReason,
+                                                  p.nit,
+                                                  p.note,
+                                                  p._payments));
         return events;
       }
     );
@@ -52,6 +69,10 @@ export class ParticipantService {
         return "success";
       }
     );
+  }
+
+  private loadParticipant(participant) {
+    return new Participant();
   }
 
 }

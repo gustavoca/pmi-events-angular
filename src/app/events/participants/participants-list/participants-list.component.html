@@ -24,36 +24,17 @@
   </table>
 </div>
 
-<ng-template #content let-c="close" let-d="dismiss">
+<ng-template #payments let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title">Modal title</h4>
+    <h4 class="modal-title">{{currentParticipant.names}} {{currentParticipant.firstSurname}} Pagos</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-      <app-qr-show></app-qr-show>
+      <app-payments [participant]="currentParticipant"></app-payments>
   </div>
-  <div class="modal-footer">
+  <!-- <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-  </div>
+  </div> -->
 </ng-template>
-<!-- <div class="modal fade" id="qrView" tabindex="-1" role="dialog" aria-labelledby="qrViewLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="qrViewLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <app-qr-show></app-qr-show>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> -->

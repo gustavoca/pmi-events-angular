@@ -8,7 +8,7 @@
 <td>
   <div class="btn-group">
     <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button class="btn btn-secondary dropdown-toggle" placement="top" ngbTooltip="Imprimir" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-print" aria-hidden="true"></i>
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -18,13 +18,13 @@
       </div>
     </div>
   </div>
-    <button class="btn btn-secondary" (click)=onShowPayments()>
+    <button class="btn btn-secondary" data-toggle="tooltip" placement="top" ngbTooltip="Pagos" (click)=onShowPayments()>
       <i class="fa fa-money" aria-hidden="true"></i>
     </button>
-    <button class="btn btn-secondary"(click)=onEditParticipant() >
+    <button class="btn btn-secondary" placement="top" ngbTooltip="Editar" (click)=onEditParticipant() >
       <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
     </button>
-    <button class="btn btn-secondary" (click)=onDeleteParticipant()>
+    <button class="btn btn-secondary" placement="top" ngbTooltip="Eliminar" (click)=onDeleteParticipant()>
       <i class="fa fa-times" aria-hidden="true"></i>
     </button>
 </td>

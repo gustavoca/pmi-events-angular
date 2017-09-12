@@ -3,12 +3,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Rx';
 
+import { ParticipantCategoryService } from '../../participantCategory.service';
 import { ParticipantService } from '../../participant.service';
 import { Participant } from '../../participant.model';
 import { AlertService } from '../../../_services/alert.service';
 import { MessageService } from '../../../_services/message.service';
 import { MessageType } from '../../../_models/message.model';
+import { ParticipantCategory } from '../../participantCategory.model';
+import { EventService } from '../../event.service';
 
 
 @Component({
@@ -19,14 +23,20 @@ import { MessageType } from '../../../_models/message.model';
 export class ParticipantsListComponent implements OnInit {
 
   @ViewChild('content') private content;
+  @ViewChild('payments') private payments;
 
-  eventId: string
+  eventId: string;
   participants: Array<Participant>;
   participantItemSubscription: Subscription;
+  currentParticipant: Participant;
+  participantCategories: Array<ParticipantCategory>;
+  preSalePercentage: number;
 
   constructor(private participantService: ParticipantService,
               private messageService: MessageService,
               private alertService: AlertService,
+              private participantCategoryService: ParticipantCategoryService,
+              private eventService: EventService,
               private router: Router,
               private route: ActivatedRoute,
               private modalService: NgbModal) { }
@@ -43,9 +53,14 @@ export class ParticipantsListComponent implements OnInit {
         break;
       }
       case MessageType.showQr: {
-        console.log(this.modalService);
         this.modalService.open(this.content);
         break;
+      }
+      case MessageType.showPayments: {
+        this.currentParticipant = message.text;
+        this.currentParticipant.category = this.participantCategories.filter(category => <string>category.id == this.currentParticipant.categoryId)[0];
+        this.currentParticipant.preSalePercentage = this.preSalePercentage;
+        this.modalService.open(this.payments);
       }
     }
 
@@ -56,9 +71,17 @@ export class ParticipantsListComponent implements OnInit {
 
   initializeForm() {
     this.eventId = this.route.snapshot.params['id'];
-    this.participantService.all(this.eventId).subscribe(
-      (participants) => this.participants = participants,
-      (error) => this.alertService.error(error)
+    Observable.forkJoin(
+      this.participantService.all(this.eventId),
+      this.participantCategoryService.byEvent(this.eventId),
+      this.eventService.eventById(this.eventId, {"fields": {"preSalePercentage": "true"}})
+    ).subscribe(
+      data => {
+        this.participants = data[0];
+        this.participantCategories = data[1];
+        this.preSalePercentage = data[2].preSalePercentage;
+      },
+      error => this.alertService.error(error)
     );
   }
 

@@ -23,10 +23,11 @@ const appRoutes: Routes = [
         ]
       },
       { path: ':id/edit', component: EventEditComponent },
+      { path: ':id/check-in', component: CheckInComponent },
       { path: '', component: EventShowComponent },
     ]
   },
-  { path: 'check-in', component: CheckInComponent },
+  // { path: 'check-in', component: CheckInComponent },
   { path: '', redirectTo: '/events', pathMatch: 'full' }
 ]
 
