@@ -1,32 +1,66 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { Observable } from 'rxjs/observable';
 
 import { ParticipantCategoryService } from '../participantCategory.service';
 import { ParticipantCategory } from '../participantCategory.model';
 import { Event } from '../event.model';
 import { EventService } from '../event.service';
+import { AlertService } from '../../_services/alert.service';
+import { CanLeaveGuard } from '../../_services/can-leave-guard.service';
 
 @Component({
   selector: 'app-event-edit',
   templateUrl: './event-edit.component.html',
   styleUrls: ['./event-edit.component.css']
 })
-export class EventEditComponent implements OnInit {
-  // @ViewChild('f') eventForm: NgForm;
+export class EventEditComponent implements OnInit, CanLeaveGuard {
   eventForm: FormGroup;
   id: string;
   editMode: boolean;
   participantCategories: Array<ParticipantCategory>;
   event: Event;
+  title: string;
+  changesSaved: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private participantCategoryService: ParticipantCategoryService,
+              private location: Location,
               private eventService: EventService,
+              private alertService: AlertService,
+              private router: Router,
               private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.initializeForm();
+    this.listenRouteParams();
+  }
+
+  initializeForm() {
+    this.title = "Nuevo Evento";
     this.setupEventForm();
+  }
+
+  onCancel() {
+    this.goToSourceLink();
+  }
+
+  goToSourceLink() {
+    this.router.navigate(['../../'], {relativeTo: this.route});
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if(this.eventForm.dirty && !this.changesSaved) {
+      return confirm("Existen cambios no guardados en el formulario. Salir de todos modos?");
+    }
+    else {
+      return true;
+    }
+  }
+
+  listenRouteParams() {
     this.participantCategories = this.participantCategoryService.all();
     this.route.params
       .subscribe(
@@ -36,6 +70,7 @@ export class EventEditComponent implements OnInit {
             this.eventService.eventById(this.id).subscribe(
               (event: Event) => {
                 this.event = event;
+                this.title = `${this.event.name}`;
                 this.populateForm();
               },
               (error) => console.log(error)
@@ -54,13 +89,12 @@ export class EventEditComponent implements OnInit {
     this.participantCategories.forEach(category => {
       control.push(this.createCategoryForm(category));
     });
-    console.log(control.controls);
   }
 
   setupEventForm() {
     this.eventForm = this.fb.group({
       'name': new FormControl(null, [Validators.required]),
-      'preSalePercentage': new FormControl(null, [Validators.required]),
+      'preSalePercentage': new FormControl(null, [Validators.required, Validators.max(100), Validators.min(0), Validators.pattern('^[0-9]+\.?[0-9]*$')]),
       'description': new FormControl(null),
       'participantCategories': this.fb.array([])
     });
@@ -94,23 +128,27 @@ export class EventEditComponent implements OnInit {
   onSubmit() {
     let values = this.eventForm.value;
     if (this.event) {
-      console.log("UPDATING");
       this.updateEvent(values);
     }
     else { //new event
-      let event = new Event(null,
-                            values.name,
-                            values.description,
-                            values.preSalePercentage,
-                            [],
-                            values.participantCategories);
-      this.eventService.save(event).subscribe(
-        (result) => {
-          console.log(result);
-        },
-        (error) => console.log(error)
-      );
+      this.save(values);
     }
+  }
+
+  save(values) {
+    let event = new Event(null,
+                          values.name,
+                          values.description,
+                          values.preSalePercentage,
+                          [],
+                          values.participantCategories);
+    this.eventService.save(event).subscribe(
+      (result) => {
+        this.location.back();
+        this.alertService.success(`Nuevo evento guardado exitosamente.`, true);
+      },
+      (error) => console.log(error)
+    );
   }
 
   updateEvent(values) {
@@ -120,7 +158,10 @@ export class EventEditComponent implements OnInit {
     this.event.participantCategories = values.participantCategories;
     this.eventService.update(this.event).subscribe(
       (result) => {
-        console.log(result);
+        this.changesSaved = true;
+        this.goToSourceLink();
+        // this.location.back();
+        this.alertService.success(`Evento actualizado exitosamente.`, true);
       },
       (error) => console.log(error)
     );

@@ -2,22 +2,24 @@ import { environment } from '../../environments/environment';
 
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
 import { Participant } from './participant.model';
 import { Filter } from '../_services/filter.service';
+import { ParticipantCategoryService } from './participantCategory.service';
 
 const BASEURL = 'http://localhost:3000/api';
 
 @Injectable()
 export class ParticipantService {
-  constructor(private http: Http) {}
+  constructor(private http: Http,
+              private participantCategoryService: ParticipantCategoryService) {}
 
   all(eventId, filter?) {
-    // console.log(Filter.encode(filter));
     return this.http.get(`${environment.BASEURL}/events/${eventId}/participants${filter ? Filter.encode(filter): ''}`).map(
       (response: Response) => {
         let res = response.json();
+        console.log(res);
         let events = res.map(p => new Participant(p.id,
                                                   p.names,
                                                   p.firstSurname,
@@ -29,6 +31,7 @@ export class ParticipantService {
                                                   p.categoryId,
                                                   p.modality,
                                                   p.socialReason,
+                                                  p.attended,
                                                   p.nit,
                                                   p.note,
                                                   p._payments));

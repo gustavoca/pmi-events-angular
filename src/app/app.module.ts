@@ -5,6 +5,7 @@ import { HttpModule, RequestOptions } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { Ng2TableModule } from 'ng2-table/ng2-table';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -23,6 +24,7 @@ import { AlertService } from './_services/alert.service';
 import { AlertComponent } from './_directives/alert.component';
 import { QrShowComponent } from './events/qr-show/qr-show.component';
 import { PaymentsComponent } from './events/payments/payments.component';
+import { CanLeaveGuard } from './_services/can-leave-guard.service';
 
 @NgModule({
   declarations: [
@@ -49,10 +51,12 @@ import { PaymentsComponent } from './events/payments/payments.component';
     AppRoutingModule,
     ReactiveFormsModule,
     NgxQRCodeModule,
+    Ng2TableModule,
     NgbModule.forRoot()
   ],
   providers: [
-    AlertService
+    AlertService,
+    CanLeaveGuard
   ],
   bootstrap: [AppComponent]
 })

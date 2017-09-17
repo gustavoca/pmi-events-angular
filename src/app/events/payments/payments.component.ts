@@ -40,6 +40,7 @@ export class PaymentsComponent implements OnInit {
 
   updatePayment() {
     this.totalToPay = this.participant.toPay();
+    if ( !this.participant._payments ) this.participant._payments = [];
     this.paid = this.participant._payments.reduce((result, payment) => result + payment.amount, 0);
     this.onAccount = this.totalToPay - this.paid;
   }
@@ -51,7 +52,8 @@ export class PaymentsComponent implements OnInit {
                                   new Date());
     this.paymentService.save(this.eventId, this.participant.id, newPayment).subscribe(
       (result) => {
-        this.alertService.success(`eeexito.`);
+        // this.alertService.success(`eeexito.`);
+        console.log(result);
         this.participant._payments.push(newPayment);
         this.updatePayment();
       },

@@ -16,6 +16,12 @@ export class ParticipantItemComponent implements OnInit {
 
   @Input() participant: Participant;
   @Input() eventId: string;
+  pendingPayment: boolean;
+  paymentStatus: any = {
+    "PAID": "Pagado",
+    "PENDING": "Pendiente"
+  }
+
   constructor(private router: Router,
               private route: ActivatedRoute,
               private participantService: ParticipantService,
@@ -23,6 +29,7 @@ export class ParticipantItemComponent implements OnInit {
               private messageService: MessageService) { }
 
   ngOnInit() {
+    this.updatePendingPayment();
   }
 
   onShowPayments() {
@@ -35,6 +42,16 @@ export class ParticipantItemComponent implements OnInit {
 
   onShowQrCode() {
     this.messageService.sendMessage(MessageType.showQr, this.participant);
+  }
+
+  updatePendingPayment() {
+    console.log(this.participant);
+    if (this.participant.leftToPay() > 0) {
+      this.pendingPayment = true;
+    }
+    else {
+      this.pendingPayment = false;
+    }
   }
 
   onDeleteParticipant() {

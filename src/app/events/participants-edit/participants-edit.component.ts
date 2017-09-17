@@ -95,6 +95,7 @@ export class ParticipantsEditComponent implements OnInit {
                                           participant.categoryId,
                                           participant.modality,
                                           participant.socialReason,
+                                          participant.attended,
                                           participant.nit,
                                           participant.note,
                                           participant._payments);
@@ -110,10 +111,6 @@ export class ParticipantsEditComponent implements OnInit {
     loadedParticipant.preSalePercentage = this.preSalePercentage
 
     return loadedParticipant;
-  }
-
-  updatePayment() {
-
   }
 
   calculatePayment() {
@@ -145,7 +142,7 @@ export class ParticipantsEditComponent implements OnInit {
 
   onSubmit() {
     let values = this.participantForm.value;
-    if (this.participant) {
+    if (this.participant.id) {
       this.updateParticipant(values);
     }
     else { //new participant
@@ -162,9 +159,10 @@ export class ParticipantsEditComponent implements OnInit {
                                 values.phone,
                                 values.email,
                                 this.generateQrCode(),
-                                this.categories.filter(category => category.name == values.categoryId)[0].id,
+                                this.categories.filter(category => category.name == values.categoryName)[0].id,
                                 values.modality,
                                 values.socialReason,
+                                false,
                                 values.nit,
                                 values.note,
                                 []);

@@ -14,8 +14,8 @@ export class PaymentService {
   all(eventId, participantId) {
     return this.http.get(`${environment.BASEURL}/events/${eventId}/participants/${participantId}/payments`).map(
       (response: Response) => {
-        let events = response.json();
-        return events;
+        let payments = response.json();
+        return payments;
       }
     );
   }
@@ -23,7 +23,8 @@ export class PaymentService {
   save(eventId, participantId, payment) {
     return this.http.post(`${environment.BASEURL}/events/${eventId}/participants/${participantId}/payments`, payment).map(
       (response: Response) => {
-        return "success";
+        let res = response.json();
+        return res;
       }
     );
   }

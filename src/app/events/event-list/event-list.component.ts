@@ -1,9 +1,14 @@
 'use strict';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Response } from '@angular/http';
+import { Subscription } from 'rxjs/Subscription';
+
 import { EventService } from '../event.service';
 import { Event } from '../event.model';
+
+import { AlertService } from '../../_services/alert.service';
+import { MessageService } from '../../_services/message.service';
+import { MessageType } from '../../_models/message.model';
 
 @Component({
   selector: 'app-event-list',
@@ -12,15 +17,34 @@ import { Event } from '../event.model';
 })
 export class EventListComponent implements OnInit {
   events: Event[];
+  eventItemSubscription: Subscription;
   constructor(private eventService: EventService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private alertService: AlertService,
+              private messageService: MessageService) { }
 
   ngOnInit() {
-    // this.events = this.eventService.allEvents();
+    this.subscribeToEventItem();
     this.eventService.all().subscribe(
       (events: Event[]) => this.events = events,
-      (error) => console.log(error)
+      (error) => this.alertService.error(error)
     );
+  }
+
+  subscribeToEventItem() {
+    this.eventItemSubscription = this.messageService.getMessage().subscribe(this.onEventItemMessage.bind(this));
+  }
+
+  onEventItemMessage(message) {
+    switch(message.type) {
+      case MessageType.deleteEvent: {
+        this.events = this.events.filter(event => event.id != message.text);
+        break;
+      }
+    }
+  }
+  ngOnDestroy() {
+    this.eventItemSubscription.unsubscribe();
   }
 }

@@ -4,6 +4,7 @@ import { EventService } from './event.service';
 import { ParticipantCategoryService } from './participantCategory.service';
 import { ParticipantService } from './participant.service';
 import { PaymentService } from './payment.service';
+import { MessageService } from '../_services/message.service';
 
 @Component({
   selector: 'app-events',
@@ -12,7 +13,8 @@ import { PaymentService } from './payment.service';
   providers: [EventService,
               ParticipantCategoryService,
               ParticipantService,
-              PaymentService]
+              PaymentService,
+              MessageService]
 })
 export class EventsComponent implements OnInit {
 

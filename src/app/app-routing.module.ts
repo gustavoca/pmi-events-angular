@@ -9,7 +9,7 @@ import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { EventShowComponent } from './events/event-show/event-show.component';
 import { ParticipantsEditComponent } from './events/participants-edit/participants-edit.component';
 import { ParticipantsListComponent } from 'app/events/participants/participants-list/participants-list.component';
-
+import { CanLeaveGuard } from './_services/can-leave-guard.service';
 
 const appRoutes: Routes = [
   {
@@ -22,7 +22,7 @@ const appRoutes: Routes = [
           { path: '', component: ParticipantsListComponent }
         ]
       },
-      { path: ':id/edit', component: EventEditComponent },
+      { path: ':id/edit', component: EventEditComponent, canDeactivate: [CanLeaveGuard] },
       { path: ':id/check-in', component: CheckInComponent },
       { path: '', component: EventShowComponent },
     ]

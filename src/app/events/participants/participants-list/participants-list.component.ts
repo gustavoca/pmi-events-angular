@@ -63,7 +63,6 @@ export class ParticipantsListComponent implements OnInit {
         this.modalService.open(this.payments);
       }
     }
-
   }
   subscribeToParticipantEvents() {
     this.participantItemSubscription = this.messageService.getMessage().subscribe(this.onParticipantMessage.bind(this));
@@ -77,12 +76,21 @@ export class ParticipantsListComponent implements OnInit {
       this.eventService.eventById(this.eventId, {"fields": {"preSalePercentage": "true"}})
     ).subscribe(
       data => {
-        this.participants = data[0];
         this.participantCategories = data[1];
         this.preSalePercentage = data[2].preSalePercentage;
+        this.participants = this.addCategoryToParticipants(data[0], this.participantCategories);
+        console.log(this.participants);
       },
       error => this.alertService.error(error)
     );
+  }
+
+  addCategoryToParticipants(participants, categories) {
+    participants.forEach(participant => {
+      participant.category = categories.filter(category => category.id == participant.categoryId)[0];
+      participant.preSalePercentage = this.preSalePercentage;
+    });
+    return participants;
   }
 
   onNewParticipant() {

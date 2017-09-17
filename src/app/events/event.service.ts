@@ -24,7 +24,8 @@ export class EventService {
   save(event) {
     return this.http.post(`${environment.BASEURL}/events`, event).map(
       (response: Response) => {
-        return "success";
+        let events = response.json();
+        return events;
       }
     );
   }
@@ -32,7 +33,17 @@ export class EventService {
   update(event) {
     return this.http.patch(`${environment.BASEURL}/events/${event.id}`, event).map(
       (response: Response) => {
-        return "success";
+        let events = response.json();
+        return events;
+      }
+    );
+  }
+
+  delete(eventId) {
+    return this.http.delete(`${environment.BASEURL}/events/${eventId}`).map(
+      (response: Response) => {
+        let events = response.json();
+        return events;
       }
     );
   }
