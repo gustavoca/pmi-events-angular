@@ -45,7 +45,6 @@ export class ParticipantItemComponent implements OnInit {
   }
 
   updatePendingPayment() {
-    console.log(this.participant);
     if (this.participant.leftToPay() > 0) {
       this.pendingPayment = true;
     }

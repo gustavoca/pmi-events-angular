@@ -30,7 +30,7 @@ export class PaymentService {
   }
 
   delete(eventId, participantId, paymentId) {
-    return this.http.delete(`${environment.BASEURL}/events/${eventId}/participants/${participantId}`).map(
+    return this.http.delete(`${environment.BASEURL}/events/${eventId}/participants/${participantId}/payments/${paymentId}`).map(
       (response: Response) => {
         let res = response.json();
         return res;

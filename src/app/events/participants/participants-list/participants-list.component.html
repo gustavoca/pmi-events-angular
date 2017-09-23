@@ -19,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr app-participant-item *ngFor="let participant of participants" [participant]="participant" [eventId]="eventId"></tr>
+      <tr app-participant-item *ngFor="let participant of participants; trackBy: trackPayments" [participant]="participant" [eventId]="eventId"></tr>
     </tbody>
   </table>
 </div>

@@ -60,12 +60,23 @@ export class ParticipantsListComponent implements OnInit {
         this.currentParticipant = message.text;
         this.currentParticipant.category = this.participantCategories.filter(category => <string>category.id == this.currentParticipant.categoryId)[0];
         this.currentParticipant.preSalePercentage = this.preSalePercentage;
-        this.modalService.open(this.payments);
+        this.modalService.open(this.payments).result.then((result) => {}, (reason) => {
+          this.updateParticipantPayments();
+        });
       }
     }
   }
   subscribeToParticipantEvents() {
     this.participantItemSubscription = this.messageService.getMessage().subscribe(this.onParticipantMessage.bind(this));
+  }
+
+  private updateParticipantPayments() {
+    console.log(this.currentParticipant);
+    let index = this.participants.findIndex(participant => participant.id === this.currentParticipant.id);
+    console.log(index);
+    if (index >= 0 ) this.participants[index] = this.currentParticipant;
+    console.log(this.participants);
+    // this.currentParticipant.id
   }
 
   initializeForm() {
@@ -79,10 +90,13 @@ export class ParticipantsListComponent implements OnInit {
         this.participantCategories = data[1];
         this.preSalePercentage = data[2].preSalePercentage;
         this.participants = this.addCategoryToParticipants(data[0], this.participantCategories);
-        console.log(this.participants);
       },
       error => this.alertService.error(error)
     );
+  }
+
+  trackPayments(index: number, participant: Participant) {
+    return participant._payments.length;
   }
 
   addCategoryToParticipants(participants, categories) {

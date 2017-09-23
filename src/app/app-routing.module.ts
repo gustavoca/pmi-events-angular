@@ -14,11 +14,11 @@ import { CanLeaveGuard } from './_services/can-leave-guard.service';
 const appRoutes: Routes = [
   {
     path: 'events', component: EventsComponent, children: [
-      { path: 'new', component: EventEditComponent },
+      { path: 'new', component: EventEditComponent, canDeactivate: [CanLeaveGuard] },
       {
         path: ':id/participants', component: ParticipantsComponent, children: [
-          { path: ':participantId/edit', component: ParticipantsEditComponent },
-          { path: 'new', component: ParticipantsEditComponent },
+          { path: ':participantId/edit', component: ParticipantsEditComponent, canDeactivate: [CanLeaveGuard] },
+          { path: 'new', component: ParticipantsEditComponent, canDeactivate: [CanLeaveGuard] },
           { path: '', component: ParticipantsListComponent }
         ]
       },

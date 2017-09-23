@@ -52,7 +52,10 @@
               <input  type="text"
                       class="form-control"
                       [ngClass]="{'is-invalid': categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)}"
-                      formControlName="price" >
+                      formControlName="price">
+            </div>
+            <div class="invalid-feedback feeback-invalid-block" *ngIf="categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)">
+                  El evento debe contener un porcentaje entre 0 y 100.
             </div>
           </div>
         </div>

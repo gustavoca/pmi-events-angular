@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs/Rx';
 
@@ -10,6 +10,8 @@ import { EventService } from '../event.service';
 import { Participant, Modality } from '../participant.model';
 import { ParticipantCategory } from '../participantCategory.model';
 import { AlertService } from '../../_services/alert.service';
+
+import { CanLeaveGuard } from '../../_services/can-leave-guard.service';
 
 @Component({
   selector: 'app-participants-edit',
@@ -29,6 +31,7 @@ export class ParticipantsEditComponent implements OnInit {
   currentDiscount: number;
   participantId: string;
   preSalePercentage: number;
+  changesSaved: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private location: Location,
@@ -36,11 +39,26 @@ export class ParticipantsEditComponent implements OnInit {
               private participantService: ParticipantService,
               private eventService: EventService,
               private alertService: AlertService,
+              private router: Router,
+              private canLeaveGuard: CanLeaveGuard,
               private fb: FormBuilder) { }
 
   ngOnInit() {
     this.initializeForm();
     this.listenRouteParams();
+  }
+
+  onCancel() {
+    this.goToSourceLink();
+  }
+
+  goToSourceLink() {
+    if (this.participant.id) {
+      this.router.navigate(['../../'], {relativeTo: this.route});
+    }
+    else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
   }
 
   initializeForm() {
@@ -168,7 +186,8 @@ export class ParticipantsEditComponent implements OnInit {
                                 []);
     this.participantService.save(this.eventId, participant).subscribe(
       (result) => {
-        this.location.back();
+        this.changesSaved = true;
+        this.goToSourceLink();
         this.alertService.success(`Nuevo participante guardado exitosamente.`, true);
       },
       (error) => this.alertService.error(error)
@@ -188,11 +207,21 @@ export class ParticipantsEditComponent implements OnInit {
     this.participant.note = values.note;
     this.participantService.update(this.eventId, this.participant).subscribe(
       (result) => {
-        this.location.back();
+        this.changesSaved = true;
+        this.goToSourceLink();
         this.alertService.success(`Participante guardado exitosamente.`, true);
       },
       (error) => this.alertService.error(error)
     );
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if(this.participantForm.dirty && !this.changesSaved) {
+      return confirm("Existen cambios no guardados en el formulario. Salir de todos modos?");
+    }
+    else {
+      return true;
+    }
   }
 
   setupParticipantForm() {
@@ -201,16 +230,16 @@ export class ParticipantsEditComponent implements OnInit {
       'firstSurname': new FormControl(null, [Validators.required]),
       'lastSurname' : new FormControl(null),
       'registeredAt': new FormControl(null, [Validators.required]),
-      'phone'       : new FormControl(null),
-      'email'       : new FormControl(null),
+      'phone'       : new FormControl(null, [Validators.required, Validators.pattern('^[0-9]+'), Validators.pattern('^.{7,10}$')]),
+      'email'       : new FormControl(null, [Validators.email]),
       'categoryName': new FormControl(null),
       'modality'    : new FormControl(null),
       'total'       : new FormControl({value: "", disabled: true}),
       'discount'    : new FormControl({value: "", disabled: true}),
       'toPay'       : new FormControl({value: "", disabled: true}),
-      'socialReason': new FormControl(null),
-      'nit'         : new FormControl(null),
-      'note'        : new FormControl(null)
+      'socialReason': new FormControl(null, [Validators.required]),
+      'nit'         : new FormControl(null, [Validators.required]),
+      'note'        : new FormControl(null, [Validators.required])
     });
   }
 }

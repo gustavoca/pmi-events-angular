@@ -144,10 +144,11 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
                           values.participantCategories);
     this.eventService.save(event).subscribe(
       (result) => {
-        this.location.back();
+        this.changesSaved = true;
+        this.goToSourceLink();
         this.alertService.success(`Nuevo evento guardado exitosamente.`, true);
       },
-      (error) => console.log(error)
+      (error) => this.alertService.error(error)
     );
   }
 
@@ -160,7 +161,6 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
       (result) => {
         this.changesSaved = true;
         this.goToSourceLink();
-        // this.location.back();
         this.alertService.success(`Evento actualizado exitosamente.`, true);
       },
       (error) => console.log(error)

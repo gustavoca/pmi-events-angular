@@ -11,3 +11,11 @@ body {
 a.dropdown-item {
   cursor: pointer;
 }
+
+/*.feeback-invalid-block {
+    display: block!important;
+}*/
+
+.invalid-feedback {
+  display: block;
+}

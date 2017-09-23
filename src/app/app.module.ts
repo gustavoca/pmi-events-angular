@@ -5,7 +5,7 @@ import { HttpModule, RequestOptions } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
-import { Ng2TableModule } from 'ng2-table/ng2-table';
+import { CustomFormsModule } from 'ng2-validation';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -51,7 +51,7 @@ import { CanLeaveGuard } from './_services/can-leave-guard.service';
     AppRoutingModule,
     ReactiveFormsModule,
     NgxQRCodeModule,
-    Ng2TableModule,
+    CustomFormsModule,
     NgbModule.forRoot()
   ],
   providers: [

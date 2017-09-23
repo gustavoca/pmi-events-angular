@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgForm, FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, FormArray, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { Participant } from '../participant.model';
@@ -35,10 +35,10 @@ export class PaymentsComponent implements OnInit {
   initializeForm() {
     this.eventId = this.route.parent.snapshot.params['id'];
     this.setupPaymentForm();
-    this.updatePayment();
+    this.refreshPayment();
   }
 
-  updatePayment() {
+  refreshPayment() {
     this.totalToPay = this.participant.toPay();
     if ( !this.participant._payments ) this.participant._payments = [];
     this.paid = this.participant._payments.reduce((result, payment) => result + payment.amount, 0);
@@ -52,10 +52,9 @@ export class PaymentsComponent implements OnInit {
                                   new Date());
     this.paymentService.save(this.eventId, this.participant.id, newPayment).subscribe(
       (result) => {
-        // this.alertService.success(`eeexito.`);
-        console.log(result);
+        newPayment.id = result.id;
         this.participant._payments.push(newPayment);
-        this.updatePayment();
+        this.refreshPayment();
       },
       (error) => this.alertService.error(error)
     );
@@ -63,7 +62,26 @@ export class PaymentsComponent implements OnInit {
 
   setupPaymentForm() {
     this.paymentForm = this.fb.group({
-      'amount': new FormControl(null, [Validators.required])
+      'amount': new FormControl(null, [ Validators.pattern('^[0-9]+\.?[0-9]*$'),
+                                        this.checkAmount()])
     });
+  }
+
+  onDeletePayment(payment) {
+    this.paymentService.delete(this.eventId, this.participant.id, payment.id).subscribe(
+      (result) => {
+
+        this.participant._payments = this.participant._payments.filter(participant => participant.id != payment.id);
+        this.refreshPayment();
+      },
+      (error) => this.alertService.error(error)
+    );
+  }
+
+  checkAmount(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} => {
+      let invalid = ((this.participant.leftToPay() - control.value) < 0) ? true : false;
+      return invalid ? {'forbiddenName': {value: control.value}} : null;
+    };
   }
 }

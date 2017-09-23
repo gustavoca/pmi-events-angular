@@ -1,7 +1,4 @@
 <div class="container">
-  <!-- <div class="row">
-    {{participant | json}}
-  </div> -->
   <div class="form-group row">
     <label for="toPay" class="col-4 col-form-label">A Pagar</label>
     <div class="col-8">
@@ -47,12 +44,18 @@
         <tr>
           <th>Monto (Bs.)</th>
           <th>Fecha</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let payment of participant._payments">
           <td>{{payment.amount}}</td>
           <td>{{payment.createdAt | date}}</td>
+          <td>
+            <button class="btn btn-light" ngbTooltip="Eliminar" (click)=onDeletePayment(payment)>
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -67,12 +70,16 @@
               <input  type="number"
                       id="amount"
                       class="form-control"
+                      [ngClass]="{'is-invalid': paymentForm.get('amount').errors && (paymentForm.get('amount').dirty || paymentForm.get('amount').touched)}"
                       formControlName="amount">
+          </div>
+          <div class="invalid-feedback" *ngIf="paymentForm.get('amount').errors && (paymentForm.get('amount').dirty || paymentForm.get('amount').touched)">
+            El monto debe ser menor al total a pagar.
           </div>
         </div>
       </div>
       <div class="text-right">
-        <button form="ngPaymentForm" class="form-control" type="submit" class="btn btn-primary">Guardar</button>
+        <button form="ngPaymentForm" [disabled]="paymentForm.invalid || (paymentForm.get('amount').value == null)" class="form-control" type="submit" class="btn btn-primary">Guardar</button>
       </div>
     </form>
   </div>

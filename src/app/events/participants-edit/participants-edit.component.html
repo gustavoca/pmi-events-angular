@@ -4,7 +4,7 @@
   </div>
   <div class="col-auto mt-2 mr-4">
     <button form="ngParticipantForm" type="submit" class="btn btn-primary" [disabled]="participantForm.invalid">Guardar</button>
-    <a href="#">Cancelar</a>
+    <button (click)="onCancel()" class="btn btn-link">Cancelar</button>
   </div>
 </div>
 <form [formGroup]="participantForm" (ngSubmit)="onSubmit()" id="ngParticipantForm">
@@ -18,7 +18,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('registeredAt').errors && (participantForm.get('registeredAt').dirty || participantForm.get('registeredAt').touched)}"
                             formControlName="registeredAt">
           <div class="invalid-feedback" *ngIf="participantForm.get('registeredAt').errors && (participantForm.get('registeredAt').dirty || participantForm.get('registeredAt').touched)">
-            El participante debe tener una fecha de registro.
+            El participante debe tener una fecha de registro válida.
           </div>
         </div>
       </div>
@@ -42,7 +42,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('firstSurname').errors && (participantForm.get('firstSurname').dirty || participantForm.get('firstSurname').touched)}"
                             formControlName="firstSurname">
           <div class="invalid-feedback" *ngIf="participantForm.get('firstSurname').errors && (participantForm.get('firstSurname').dirty || participantForm.get('firstSurname').touched)">
-            El participante debe tener un nombre.
+            El participante debe tener un apellido.
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('lastSurname').errors && (participantForm.get('lastSurname').dirty || participantForm.get('lastSurname').touched)}"
                             formControlName="lastSurname">
           <div class="invalid-feedback" *ngIf="participantForm.get('lastSurname').errors && (participantForm.get('lastSurname').dirty || participantForm.get('lastSurname').touched)">
-            El participante debe tener un nombre.
+            El participante debe tener un apellido.
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('phone').errors && (participantForm.get('phone').dirty || participantForm.get('phone').touched)}"
                             formControlName="phone">
           <div class="invalid-feedback" *ngIf="participantForm.get('phone').errors && (participantForm.get('phone').dirty || participantForm.get('phone').touched)">
-            El participante debe tener un nombre.
+            El participante debe tener un número de teléfono válido.
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('email').errors && (participantForm.get('email').dirty || participantForm.get('email').touched)}"
                             formControlName="email">
           <div class="invalid-feedback" *ngIf="participantForm.get('email').errors && (participantForm.get('email').dirty || participantForm.get('email').touched)">
-            El participante debe tener un nombre.
+            El participante debe tener un email válido.
           </div>
         </div>
       </div>
@@ -113,11 +113,7 @@
                       id="total"
                       class="form-control"
                       [(ngModel)]="currentTotal"
-                      [ngClass]="{'is-invalid': participantForm.get('total').errors && (participantForm.get('total').dirty || participantForm.get('total').touched)}"
                       formControlName="total">
-          </div>
-          <div class="invalid-feedback" *ngIf="participantForm.get('total').errors && (participantForm.get('total').dirty || participantForm.get('total').touched)">
-                El evento debe contener un porcentaje.
           </div>
         </div>
       </div>
@@ -130,11 +126,7 @@
                       id="discount"
                       class="form-control"
                       [(ngModel)]="currentDiscount"
-                      [ngClass]="{'is-invalid': participantForm.get('discount').errors && (participantForm.get('discount').dirty || participantForm.get('discount').touched)}"
                       formControlName="discount">
-          </div>
-          <div class="invalid-feedback" *ngIf="participantForm.get('discount').errors && (participantForm.get('discount').dirty || participantForm.get('discount').touched)">
-                El evento debe contener un porcentaje.
           </div>
         </div>
       </div>
@@ -147,11 +139,7 @@
                       id="toPay"
                       [(ngModel)]="currentTotalToPay"
                       class="form-control"
-                      [ngClass]="{'is-invalid': participantForm.get('toPay').errors && (participantForm.get('toPay').dirty || participantForm.get('toPay').touched)}"
                       formControlName="toPay">
-          </div>
-          <div class="invalid-feedback" *ngIf="participantForm.get('toPay').errors && (participantForm.get('toPay').dirty || participantForm.get('toPay').touched)">
-                El evento debe contener un porcentaje.
           </div>
         </div>
       </div>
@@ -163,7 +151,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('socialReason').errors && (participantForm.get('socialReason').dirty || participantForm.get('socialReason').touched)}"
                             formControlName="socialReason">
           <div class="invalid-feedback" *ngIf="participantForm.get('socialReason').errors && (participantForm.get('socialReason').dirty || participantForm.get('socialReason').touched)">
-            El participante debe tener un nombre.
+            El participante debe contener una razón social.
           </div>
         </div>
       </div>
@@ -175,7 +163,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('nit').errors && (participantForm.get('nit').dirty || participantForm.get('nit').touched)}"
                             formControlName="nit">
           <div class="invalid-feedback" *ngIf="participantForm.get('nit').errors && (participantForm.get('nit').dirty || participantForm.get('nit').touched)">
-            El participante debe tener un nombre.
+            El participante debe tener un nit.
           </div>
         </div>
       </div>
@@ -187,7 +175,7 @@
                             [ngClass]="{'is-invalid': participantForm.get('note').errors && (participantForm.get('note').dirty || participantForm.get('note').touched)}"
                             formControlName="note">
           <div class="invalid-feedback" *ngIf="participantForm.get('note').errors && (participantForm.get('note').dirty || participantForm.get('note').touched)">
-            El participante debe tener un nombre.
+            El participante debe tener una glosa.
           </div>
         </div>
       </div>
