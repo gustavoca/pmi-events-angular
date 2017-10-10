@@ -19,3 +19,7 @@ a.dropdown-item {
 .invalid-feedback {
   display: block;
 }
+
+@media print {
+  .navbar-brand{display:none !important;}
+}

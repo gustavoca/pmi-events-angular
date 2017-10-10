@@ -5,7 +5,7 @@ import { MessageService } from '../../_services/message.service';
   selector: 'app-participants',
   templateUrl: './participants.component.html',
   styleUrls: ['./participants.component.css'],
-  providers: [MessageService]
+  providers: []
 })
 export class ParticipantsComponent implements OnInit {
 

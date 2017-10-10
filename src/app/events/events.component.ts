@@ -22,13 +22,4 @@ export class EventsComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  newEvent() {
-  }
-
-  updateEvent() {
-  }
-
-  deleteEvent() {
-  }
 }

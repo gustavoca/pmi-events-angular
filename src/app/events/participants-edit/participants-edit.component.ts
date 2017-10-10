@@ -23,6 +23,7 @@ export class ParticipantsEditComponent implements OnInit {
   participant: Participant;
   categories: Array<ParticipantCategory>;
   modalities: Array<string> = [Modality.Sale, Modality.PreSale];
+  title: string = "Nuevo Participante";
 
   categoryName: string;
   eventId: string;
@@ -32,6 +33,7 @@ export class ParticipantsEditComponent implements OnInit {
   participantId: string;
   preSalePercentage: number;
   changesSaved: boolean = false;
+  attended: boolean;
 
   constructor(private route: ActivatedRoute,
               private location: Location,
@@ -91,6 +93,7 @@ export class ParticipantsEditComponent implements OnInit {
               this.categoryName = this.participant.category.name;
               this.calculatePayment();
               this.populateForm();
+              if (participant) this.title = this.participant.names;
             },
             (error) => console.log(error)
           );
@@ -151,6 +154,7 @@ export class ParticipantsEditComponent implements OnInit {
       socialReason: this.participant.socialReason,
       nit: this.participant.nit,
       note: this.participant.note,
+      attended: this.participant.attended
     });
   }
 
@@ -205,6 +209,7 @@ export class ParticipantsEditComponent implements OnInit {
     this.participant.socialReason = values.socialReason;
     this.participant.nit = values.nit;
     this.participant.note = values.note;
+    this.participant.attended = values.attended;
     this.participantService.update(this.eventId, this.participant).subscribe(
       (result) => {
         this.changesSaved = true;
@@ -239,7 +244,8 @@ export class ParticipantsEditComponent implements OnInit {
       'toPay'       : new FormControl({value: "", disabled: true}),
       'socialReason': new FormControl(null, [Validators.required]),
       'nit'         : new FormControl(null, [Validators.required]),
-      'note'        : new FormControl(null, [Validators.required])
+      'note'        : new FormControl(null, [Validators.required]),
+      'attended'    : new FormControl(null)
     });
   }
 }

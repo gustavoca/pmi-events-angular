@@ -9,6 +9,7 @@ import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { EventShowComponent } from './events/event-show/event-show.component';
 import { ParticipantsEditComponent } from './events/participants-edit/participants-edit.component';
 import { ParticipantsListComponent } from 'app/events/participants/participants-list/participants-list.component';
+import { BadgesComponent } from './events/badges/badges.component';
 import { CanLeaveGuard } from './_services/can-leave-guard.service';
 
 const appRoutes: Routes = [
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
         path: ':id/participants', component: ParticipantsComponent, children: [
           { path: ':participantId/edit', component: ParticipantsEditComponent, canDeactivate: [CanLeaveGuard] },
           { path: 'new', component: ParticipantsEditComponent, canDeactivate: [CanLeaveGuard] },
+          { path: ':participantId/badge', component: BadgesComponent },
           { path: '', component: ParticipantsListComponent }
         ]
       },

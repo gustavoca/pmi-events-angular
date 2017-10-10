@@ -25,6 +25,7 @@ import { AlertComponent } from './_directives/alert.component';
 import { QrShowComponent } from './events/qr-show/qr-show.component';
 import { PaymentsComponent } from './events/payments/payments.component';
 import { CanLeaveGuard } from './_services/can-leave-guard.service';
+import { BadgesComponent } from './events/badges/badges.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { CanLeaveGuard } from './_services/can-leave-guard.service';
     ParticipantItemComponent,
     AlertComponent,
     QrShowComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    BadgesComponent
   ],
   imports: [
     BrowserModule,

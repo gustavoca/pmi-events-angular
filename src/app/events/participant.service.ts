@@ -19,7 +19,6 @@ export class ParticipantService {
     return this.http.get(`${environment.BASEURL}/events/${eventId}/participants${filter ? Filter.encode(filter): ''}`).map(
       (response: Response) => {
         let res = response.json();
-        console.log(res);
         let events = res.map(p => new Participant(p.id,
                                                   p.names,
                                                   p.firstSurname,

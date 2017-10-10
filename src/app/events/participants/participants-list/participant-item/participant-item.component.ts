@@ -36,6 +36,11 @@ export class ParticipantItemComponent implements OnInit {
     this.messageService.sendMessage(MessageType.showPayments, this.participant);
   }
 
+  onPrintBadge() {
+    window.open( `${window.location}/${this.participant.id}/badge` );
+    this.messageService.sendMessage(MessageType.printBadge, this.participant);
+  }
+
   onEditParticipant() {
     this.router.navigate([this.participant.id, 'edit'], {relativeTo: this.route });
   }

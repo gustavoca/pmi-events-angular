@@ -6,14 +6,15 @@ import 'rxjs/Rx';
 
 import { Event } from './event.model';
 import { Participant } from './participant.model';
+import { Filter } from '../_services/filter.service';
 const BASEURL = 'http://localhost:3000/api';
 
 @Injectable()
 export class EventService {
   constructor(private http: Http) {}
 
-  all() {
-    return this.http.get(`${environment.BASEURL}/events`).map(
+  all(filter?) {
+    return this.http.get(`${environment.BASEURL}/events${filter ? Filter.encode(filter): ''}`).map(
       (response: Response) => {
         let events = response.json();
         return events;

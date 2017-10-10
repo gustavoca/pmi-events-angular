@@ -43,6 +43,10 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
     this.setupEventForm();
   }
 
+  getParticipantCategoryForm() {
+    return <FormArray>this.eventForm.get('participantCategories');
+  }
+
   onCancel() {
     this.goToSourceLink();
   }

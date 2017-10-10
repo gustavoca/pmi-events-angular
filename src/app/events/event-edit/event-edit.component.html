@@ -43,7 +43,9 @@
     </div>
     <div class="col-sm-12 col-lg-6 form-group" formArrayName="participantCategories">
       <legend>Precios por categoría</legend>
-      <div *ngFor="let categoryControl of eventForm.get('participantCategories').controls; let i=index">
+      {{eventForm.get('participantCategories') | json}}
+      12345
+      <div *ngFor="let categoryControl of getParticipantCategoryForm().controls; let i=index">
         <div formGroupName="{{i}}" class="form-group row">
           <label class="col-form-label col-sm-12 col-lg-7">{{categoryControl.value.name}}</label>
           <div class="col-sm-12 col-lg-5">

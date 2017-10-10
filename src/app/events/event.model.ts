@@ -5,6 +5,7 @@ export class Event {
   _participants         : Array<any>;
   participantCategories : Array<any>;
   preSalePercentage     : number;
+  createdAt             : Date;
 
   constructor(id: string,
               name: string,
