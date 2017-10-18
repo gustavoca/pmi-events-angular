@@ -22,4 +22,10 @@ a.dropdown-item {
 
 @media print {
   .navbar-brand{display:none !important;}
+  .svg-bg{display:none !important;}
+  .text-field{border: none !important;}
+  @page {
+    size: 9cm 12cm;
+    margin: 0;
+  }
 }

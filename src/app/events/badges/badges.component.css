@@ -1,0 +1,20 @@
+#participantName {
+  position: absolute;
+  left: 60px;
+  top: 130px;
+  font-family:'Arial';
+  font-size: 30px;
+  max-width: 250px;
+  text-align: center;
+  height: 195px;
+  resize: none;
+  text-transform: uppercase;
+}
+
+#participantCategory {
+  position: absolute;
+  left: 78px;
+  top: 358px;
+  font-family:'Arial';
+  font-size: 30px;
+}
