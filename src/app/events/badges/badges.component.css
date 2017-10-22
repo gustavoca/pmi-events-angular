@@ -1,27 +1,34 @@
-.participantCopy {
-  z-index: 9999;
-  position: relative;
-  margin: -150px auto 0;
-  /*margin: 0px auto 0;*/
+.badge-wrapper {
+  position: absolute;
 }
 
-.participantCopy textarea {
+@media print {
+  .badge-wrapper { 
+    top: 0;
+    left: 0;
+    width: 100%
+  }
+  #participantName> textarea { 
+    margin-top: 0 !important;
+  }
+}
+
+.participantCopy > div, .participantCopy > textarea {
+  position: relative;
   text-transform: uppercase;
   font-family:'Arial';
   text-align: center;
   font-size: 30px;
+}
+
+#participantName > textarea {
+  margin: 0 auto;
+  width: 250px;
+  margin-top: -330px;
+  resize: none;
   height: 195px;
 }
 
-#participantName {
-  max-width: 250px;
-  width: 100%;
-  top: -70px;
-  resize: none;
-}
-
 #participantCategory {
-  font-family:'Arial';
-  font-size: 30px;
-  top: 55px;
+  margin-top: 40px
 }

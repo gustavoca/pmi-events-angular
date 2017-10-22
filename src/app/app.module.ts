@@ -5,7 +5,6 @@ import { HttpModule, RequestOptions } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
-import { CustomFormsModule } from 'ng2-validation';
 
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
@@ -53,7 +52,6 @@ import { BadgesComponent } from './events/badges/badges.component';
     AppRoutingModule,
     ReactiveFormsModule,
     NgxQRCodeModule,
-    CustomFormsModule,
     NgbModule.forRoot()
   ],
   providers: [
