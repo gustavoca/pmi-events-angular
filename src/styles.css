@@ -24,8 +24,8 @@ a.dropdown-item {
   .navbar-brand{display:none !important;}
   .svg-bg{display:none;}
   .text-field{border: none !important;}
-  @page {
+  /* @page {
     size: 12cm 9cm portrait;
     margin: 0;
-  }
+  } */
 }
