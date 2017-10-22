@@ -21,43 +21,39 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="preSalePercentage">Descuento por Pre-venta</label>
-        <div class="input-group"
-             [ngClass]="{'is-invalid': eventForm.get('preSalePercentage').errors && (eventForm.get('preSalePercentage').dirty || eventForm.get('preSalePercentage').touched)}">
-          <div class="input-group-addon">%</div>
-            <input  type="number"
-                    id="preSalePercentage"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': eventForm.get('preSalePercentage').errors && (eventForm.get('preSalePercentage').dirty || eventForm.get('preSalePercentage').touched)}"
-                    required
-                    formControlName="preSalePercentage">
-        </div>
-        <div class="invalid-feedback" *ngIf="eventForm.get('preSalePercentage').errors && (eventForm.get('preSalePercentage').dirty || eventForm.get('preSalePercentage').touched)">
-              El evento debe contener un porcentaje entre 0 y 100.
-        </div>
-      </div>
-      <div class="form-group">
         <label for="description">Descripción</label>
         <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
       </div>
     </div>
     <div class="col-sm-12 col-lg-6 form-group" formArrayName="participantCategories">
       <legend>Precios por categoría</legend>
-      {{eventForm.get('participantCategories') | json}}
-      12345
+      <div class="row">
+        <div class="col-lg-3 right">Categoria</div>
+        <div class="col-lg-4 right">P. Venta</div>
+        <div class="col-lg-4 right">P. Preventa</div>
+      </div>
       <div *ngFor="let categoryControl of getParticipantCategoryForm().controls; let i=index">
         <div formGroupName="{{i}}" class="form-group row">
-          <label class="col-form-label col-sm-12 col-lg-7">{{categoryControl.value.name}}</label>
-          <div class="col-sm-12 col-lg-5">
+          <label class="col-form-label col-sm-12 col-lg-3">{{categoryControl.value.name}}</label>
+          <div class="col-sm-12 col-lg-4">
             <div class="input-group">
               <div class="input-group-addon">BOB</div>
               <input  type="text"
-                      class="form-control"
-                      [ngClass]="{'is-invalid': categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)}"
-                      formControlName="price">
+              class="form-control"
+              [ngClass]="{'is-invalid': categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)}"
+              formControlName="price">
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-4">
+            <div class="input-group">
+              <div class="input-group-addon">BOB</div>
+              <input  type="text"
+              class="form-control"
+              [ngClass]="{'is-invalid': categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)}"
+              formControlName="presalePrice">
             </div>
             <div class="invalid-feedback feeback-invalid-block" *ngIf="categoryControl.invalid && (categoryControl.dirty || categoryControl.touched)">
-                  El evento debe contener un porcentaje entre 0 y 100.
+              El evento debe contener un porcentaje entre 0 y 100.
             </div>
           </div>
         </div>

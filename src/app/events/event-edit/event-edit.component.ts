@@ -98,7 +98,6 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
   setupEventForm() {
     this.eventForm = this.fb.group({
       'name': new FormControl(null, [Validators.required]),
-      'preSalePercentage': new FormControl(null, [Validators.required, Validators.max(100), Validators.min(0), Validators.pattern('^[0-9]+\.?[0-9]*$')]),
       'description': new FormControl(null),
       'participantCategories': this.fb.array([])
     });
@@ -108,6 +107,7 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
     return this.fb.group({
         'name': category.name,
         'price': [category.price, [Validators.pattern('^[0-9]+\.?[0-9]*$')]],
+        'presalePrice': [category.presalePrice, [Validators.pattern('^[0-9]+\.?[0-9]*$')]],
         'id': category.id
     });
   }
@@ -171,16 +171,18 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
     );
   }
 
-  createParticipantCategories(categories: Object) {
-    let newParticipantCategories = [];
-    for (let index in categories) {
-      newParticipantCategories.push(new ParticipantCategory(
-        index,
-        this.participantCategories.filter(cat => cat.id === index)[0].name,
-        categories[index]
-      ));
-    }
-    return newParticipantCategories;
-  }
+  // createParticipantCategories(categories: Object) {
+  //   let newParticipantCategories = [];
+  //   console.log("", categories);
+  //   for (let index in categories) {
+  //     newParticipantCategories.push(new ParticipantCategory(
+  //       index,
+  //       this.participantCategories.filter(cat => cat.id === index)[0].name,
+  //       categories[index],
+  //       0
+  //     ));
+  //   }
+  //   return newParticipantCategories;
+  // }
 
 }

@@ -1,20 +1,27 @@
-#participantName {
-  position: absolute;
-  left: 60px;
-  top: 130px;
-  font-family:'Arial';
-  font-size: 30px;
-  max-width: 250px;
-  text-align: center;
-  height: 195px;
-  resize: none;
+.participantCopy {
+  z-index: 9999;
+  position: relative;
+  margin: -150px auto 0;
+  /*margin: 0px auto 0;*/
+}
+
+.participantCopy textarea {
   text-transform: uppercase;
+  font-family:'Arial';
+  text-align: center;
+  font-size: 30px;
+  height: 195px;
+}
+
+#participantName {
+  max-width: 250px;
+  width: 100%;
+  top: -70px;
+  resize: none;
 }
 
 #participantCategory {
-  position: absolute;
-  left: 78px;
-  top: 358px;
   font-family:'Arial';
   font-size: 30px;
+  top: 55px;
 }
