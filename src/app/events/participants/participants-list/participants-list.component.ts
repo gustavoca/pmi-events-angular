@@ -59,7 +59,6 @@ export class ParticipantsListComponent implements OnInit {
       case MessageType.showPayments: {
         this.currentParticipant = message.text;
         this.currentParticipant.category = this.participantCategories.filter(category => <string>category.id == this.currentParticipant.categoryId)[0];
-        this.currentParticipant.preSalePercentage = this.preSalePercentage;
         this.modalService.open(this.payments).result.then((result) => {}, (reason) => {
           this.updateParticipantPayments();
         });
@@ -71,12 +70,8 @@ export class ParticipantsListComponent implements OnInit {
   }
 
   private updateParticipantPayments() {
-    console.log(this.currentParticipant);
     let index = this.participants.findIndex(participant => participant.id === this.currentParticipant.id);
-    console.log(index);
     if (index >= 0 ) this.participants[index] = this.currentParticipant;
-    console.log(this.participants);
-    // this.currentParticipant.id
   }
 
   initializeForm() {

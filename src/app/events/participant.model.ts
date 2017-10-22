@@ -19,8 +19,8 @@ export class Participant {
   note              : string;
   _payments         : Array<any>;
   category          : any;
-  preSalePercentage : number;
   attended          : boolean;
+  lunch             : boolean;
 
   constructor(id?          : string,
               names?       : string,
@@ -28,6 +28,7 @@ export class Participant {
               lastSurname? : string,
               registeredAt?: Date,
               phone?       : number,
+              lunch?        : boolean,
               email?       : string,
               qrCode?      : string,
               categoryId?  : string,
@@ -52,19 +53,23 @@ export class Participant {
     this.note         = note;
     this.attended     = attended;
     this._payments    = payments;
+    this.lunch        = lunch;
   }
 
   totalToPay() {
-    return this.category.price;
-  }
-
-  discount() {
-    if (this.modality == Modality.Sale) return 0;
-    return this.totalToPay() * (this.preSalePercentage / 100);
+    let total = 0;
+    if(this.lunch) total += 70;
+    if (this.modality == Modality.Sale) {
+      total += this.category.price;
+    }
+    else {
+      total += this.category.presalePrice;
+    }
+    return total;
   }
 
   toPay() {
-    return this.totalToPay() - this.discount();
+    return this.totalToPay();
   }
 
   totalPaid() {

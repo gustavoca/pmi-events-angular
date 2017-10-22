@@ -116,7 +116,6 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
     this.participantCategories = this.event.participantCategories;
     this.eventForm.patchValue({
       name                  : this.event.name,
-      preSalePercentage     : this.event.preSalePercentage,
       description           : this.event.description
     });
     this.loadCategories();
@@ -143,9 +142,9 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
     let event = new Event(null,
                           values.name,
                           values.description,
-                          values.preSalePercentage,
                           [],
-                          values.participantCategories);
+                          values.participantCategories,
+                          new Date());
     this.eventService.save(event).subscribe(
       (result) => {
         this.changesSaved = true;
@@ -159,7 +158,6 @@ export class EventEditComponent implements OnInit, CanLeaveGuard {
   updateEvent(values) {
     this.event.name = values.name;
     this.event.description = values.description;
-    this.event.preSalePercentage = values.preSalePercentage;
     this.event.participantCategories = values.participantCategories;
     this.eventService.update(this.event).subscribe(
       (result) => {

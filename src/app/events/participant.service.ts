@@ -25,6 +25,7 @@ export class ParticipantService {
                                                   p.lastSurname,
                                                   p.registeredAt,
                                                   p.phone,
+                                                  p.lunch,
                                                   p.email,
                                                   p.qrCode,
                                                   p.categoryId,
@@ -51,7 +52,8 @@ export class ParticipantService {
   save(eventId, participant) {
     return this.http.post(`${environment.BASEURL}/events/${eventId}/participants`, participant).map(
       (response: Response) => {
-        return "success";
+        let res = response.json();
+        return res;
       }
     );
   }

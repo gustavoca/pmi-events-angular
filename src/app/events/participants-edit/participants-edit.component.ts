@@ -29,11 +29,11 @@ export class ParticipantsEditComponent implements OnInit {
   eventId: string;
   currentTotalToPay: number;
   currentTotal: number;
-  currentDiscount: number;
   participantId: string;
-  preSalePercentage: number;
   changesSaved: boolean = false;
+  totalPaid: number;
   attended: boolean;
+  lunch: boolean;
 
   constructor(private route: ActivatedRoute,
               private location: Location,
@@ -66,14 +66,13 @@ export class ParticipantsEditComponent implements OnInit {
   initializeForm() {
     this.setupParticipantForm();
     this.participant = new Participant();
+    this.totalPaid = 0;
     this.eventId = this.route.parent.snapshot.params['id'];
     Observable.forkJoin(
-      this.eventService.eventById(this.eventId, {"fields": {"preSalePercentage": "true"}}),
       this.participantCategoryService.byEvent(this.eventId)
     ).subscribe(
       data => {
-        this.preSalePercentage = data[0].preSalePercentage;
-        this.categories = data[1];
+        this.categories = data[0];
         this.participant = this.loadParticipant();
         this.categoryName = this.participant.category.name;
         this.calculatePayment();
@@ -111,6 +110,7 @@ export class ParticipantsEditComponent implements OnInit {
                                           participant.lastSurname,
                                           participant.registeredAt,
                                           participant.phone,
+                                          participant.lunch,
                                           participant.email,
                                           participant.qrCode,
                                           participant.categoryId,
@@ -129,7 +129,6 @@ export class ParticipantsEditComponent implements OnInit {
 
       loadedParticipant.modality = this.modalities[0];
     }
-    loadedParticipant.preSalePercentage = this.preSalePercentage
 
     return loadedParticipant;
   }
@@ -137,8 +136,8 @@ export class ParticipantsEditComponent implements OnInit {
   calculatePayment() {
     this.participant.category = this.categories.filter(category => category.name == this.categoryName)[0];
     this.currentTotal = this.participant.totalToPay();
-    this.currentDiscount = this.participant.discount();
     this.currentTotalToPay = this.participant.toPay();
+    this.totalPaid = this.participant.totalPaid();
   }
 
   populateForm() {
@@ -154,6 +153,7 @@ export class ParticipantsEditComponent implements OnInit {
       socialReason: this.participant.socialReason,
       nit: this.participant.nit,
       note: this.participant.note,
+      lunch: this.participant.lunch,
       attended: this.participant.attended
     });
   }
@@ -162,7 +162,7 @@ export class ParticipantsEditComponent implements OnInit {
     return "";
   }
 
-  onSubmit() {
+  onSubmit(print: boolean) {
     let values = this.participantForm.value;
     if (this.participant.id) {
       this.updateParticipant(values);
@@ -179,6 +179,7 @@ export class ParticipantsEditComponent implements OnInit {
                                 values.lastSurname,
                                 values.registeredAt,
                                 values.phone,
+                                values.lunch,
                                 values.email,
                                 this.generateQrCode(),
                                 this.categories.filter(category => category.name == values.categoryName)[0].id,
@@ -191,12 +192,37 @@ export class ParticipantsEditComponent implements OnInit {
     this.participantService.save(this.eventId, participant).subscribe(
       (result) => {
         this.changesSaved = true;
+        if(print) this.showBadge(result.id);
         this.goToSourceLink();
         this.alertService.success(`Nuevo participante guardado exitosamente.`, true);
       },
       (error) => this.alertService.error(error)
     );
   }
+
+  showBadge(id?: string) {
+    if (this.participant.id) {
+      window.open(`${this.revomeSlashes(window.location.href, 1)}/badge` );
+    }
+    else {
+      window.open(`${this.revomeSlashes(window.location.href, 2)}/participants/${id}/badge` );
+    }
+  }
+
+  submitLunchUpdate(lunch) {
+    this.participant.lunch = lunch;
+    this.calculatePayment();
+  }
+
+  revomeSlashes(url: string, slashes: number) {
+    let index = -1;
+    for (let i = 0; i < slashes; i++) {
+      index = url.lastIndexOf("/");
+      if (index > 0) url = url.substring(0, index);
+    }
+    return url;
+  }
+
   updateParticipant(values) {
     this.participant.names = values.names;
     this.participant.firstSurname = values.firstSurname;
@@ -213,6 +239,7 @@ export class ParticipantsEditComponent implements OnInit {
     this.participantService.update(this.eventId, this.participant).subscribe(
       (result) => {
         this.changesSaved = true;
+        if(print) this.showBadge();
         this.goToSourceLink();
         this.alertService.success(`Participante guardado exitosamente.`, true);
       },
@@ -239,13 +266,17 @@ export class ParticipantsEditComponent implements OnInit {
       'email'       : new FormControl(null, [Validators.email]),
       'categoryName': new FormControl(null),
       'modality'    : new FormControl(null),
-      'total'       : new FormControl({value: "", disabled: true}),
-      'discount'    : new FormControl({value: "", disabled: true}),
       'toPay'       : new FormControl({value: "", disabled: true}),
+      'totalPaid'   : new FormControl({value: "0", disabled: true}),
       'socialReason': new FormControl(null, [Validators.required]),
       'nit'         : new FormControl(null, [Validators.required]),
       'note'        : new FormControl(null, [Validators.required]),
-      'attended'    : new FormControl(null)
+      'attended'    : new FormControl(null),
+      'lunch'       : new FormControl(null)
+    });
+
+    this.participantForm.patchValue({
+      registeredAt: new Date().toISOString().slice(0,-14)
     });
   }
 }

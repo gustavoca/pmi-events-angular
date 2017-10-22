@@ -38,7 +38,6 @@ export class ParticipantItemComponent implements OnInit {
 
   onPrintBadge() {
     window.open( `${window.location}/${this.participant.id}/badge` );
-    this.messageService.sendMessage(MessageType.printBadge, this.participant);
   }
 
   onEditParticipant() {

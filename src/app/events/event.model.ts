@@ -4,20 +4,19 @@ export class Event {
   description           : string;
   _participants         : Array<any>;
   participantCategories : Array<any>;
-  preSalePercentage     : number;
   createdAt             : Date;
 
   constructor(id: string,
               name: string,
               description: string,
-              preSalePercentage: number,
               participants: Array<any>,
-              participantCategories : Array<any>) {
+              participantCategories : Array<any>,
+              createdAt: Date) {
     this.id = id;
     this.name = name;
     this.description = description;
     this._participants = participants;
-    this.preSalePercentage = preSalePercentage;
     this.participantCategories = participantCategories;
+    this.createdAt = createdAt;
   }
 }

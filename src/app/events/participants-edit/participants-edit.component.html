@@ -3,7 +3,15 @@
     <h1>{{title}}</h1>
   </div>
   <div class="col-auto mt-2 mr-4">
-    <button form="ngParticipantForm" type="submit" class="btn btn-primary" [disabled]="participantForm.invalid">Guardar</button>
+    <div class="btn-group">
+      <button form="ngParticipantForm" type="submit" class="btn btn-primary" [disabled]="participantForm.invalid">Guardar</button>
+      <button form="ngParticipantForm" type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split"  [disabled]="participantForm.invalid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="sr-only">Toggle Dropdown</span>
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" (click)="onSubmit(true)">Guardar e Imprimir</a>
+      </div>
+    </div>
     <button (click)="onCancel()" class="btn btn-link">Cancelar</button>
   </div>
 </div>
@@ -114,29 +122,13 @@
         </div>
       </div>
       <div class="form-group row">
-        <label for="total" class="col-4 col-form-label">Inversión</label>
+        <label for="lunch" class="col-4 col-form-label">Almuerzo</label>
         <div class="col-8">
-          <div class="input-group">
-            <div class="input-group-addon">BOB</div>
-              <input  type="number"
-                      id="total"
-                      class="form-control"
-                      [(ngModel)]="currentTotal"
-                      formControlName="total">
-          </div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="discount" class="col-4 col-form-label">Descuento</label>
-        <div class="col-8">
-          <div class="input-group">
-            <div class="input-group-addon">BOB</div>
-              <input  type="number"
-                      id="discount"
-                      class="form-control"
-                      [(ngModel)]="currentDiscount"
-                      formControlName="discount">
-          </div>
+          <input type="checkbox" id="lunch"
+                 [value]="lunch"
+                 (change)="submitLunchUpdate($event.target.checked)"
+                  class="form-control"
+                 formControlName="lunch">
         </div>
       </div>
       <div class="form-group row">
@@ -149,6 +141,20 @@
                       [(ngModel)]="currentTotalToPay"
                       class="form-control"
                       formControlName="toPay">
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="toPay" class="col-4 col-form-label">Pagado</label>
+        <div class="col-8">
+          <div class="input-group">
+            <div class="input-group-addon">BOB</div>
+              <input  type="number"
+                      id="totalPaid"
+                      [ngClass]="currentTotalToPay > totalPaid ? 'bg-danger' : 'bg-success'"
+                      [(ngModel)]="totalPaid"
+                      class="form-control text-white"
+                      formControlName="totalPaid">
           </div>
         </div>
       </div>
