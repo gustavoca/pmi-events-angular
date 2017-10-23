@@ -162,7 +162,7 @@ export class ParticipantsEditComponent implements OnInit {
     return "";
   }
 
-  onSubmit(print: boolean) {
+  onSubmit(print?: boolean) {
     let values = this.participantForm.value;
     if (this.participant.id) {
       this.updateParticipant(values);
