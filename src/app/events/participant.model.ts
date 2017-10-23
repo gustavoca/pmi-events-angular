@@ -68,6 +68,10 @@ export class Participant {
     return total;
   }
 
+  get fullName() {
+    return `${this.names} ${this.firstSurname} ${this.lastSurname}`;
+  }
+
   toPay() {
     return this.totalToPay();
   }

@@ -30,7 +30,6 @@ export class ParticipantsListComponent implements OnInit {
   participantItemSubscription: Subscription;
   currentParticipant: Participant;
   participantCategories: Array<ParticipantCategory>;
-  preSalePercentage: number;
   // searchString: string;
 
   tableFilter: any = { lastSurname: null };
@@ -82,11 +81,9 @@ export class ParticipantsListComponent implements OnInit {
     Observable.forkJoin(
       this.participantService.all(this.eventId),
       this.participantCategoryService.byEvent(this.eventId),
-      this.eventService.eventById(this.eventId, {"fields": {"preSalePercentage": "true"}})
     ).subscribe(
       data => {
         this.participantCategories = data[1];
-        this.preSalePercentage = data[2].preSalePercentage;
         this.participants = this.addCategoryToParticipants(data[0], this.participantCategories);
       },
       error => this.alertService.error(error)
@@ -97,10 +94,18 @@ export class ParticipantsListComponent implements OnInit {
     return participant._payments.length;
   }
 
-  addCategoryToParticipants(participants, categories) {
+  addCategoryToParticipants(fetchedParticipants, categories) {
+    let participants = fetchedParticipants.map(p => new Participant(
+                                                p.id, p.names, p.firstSurname,
+                                                p.lastSurname, p.registeredAt,
+                                                p.phone, p.lunch,
+                                                p.email, p.qrCode,
+                                                p.categoryId, p.modality,
+                                                p.socialReason, p.attended,
+                                                p.nit, p.note, p._payments
+                                              ));
     participants.forEach(participant => {
       participant.category = categories.filter(category => category.id == participant.categoryId)[0];
-      participant.preSalePercentage = this.preSalePercentage;
     });
     return participants;
   }
