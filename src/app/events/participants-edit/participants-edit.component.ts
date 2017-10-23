@@ -86,13 +86,17 @@ export class ParticipantsEditComponent implements OnInit {
       (params: Params) => {
         this.participantId = params['participantId'];
         if (this.participantId) {
-          this.participantService.find(this.eventId, this.participantId).subscribe(
-            (participant: Participant) => {
-              this.participant = this.loadParticipant(participant);
+          Observable.forkJoin(
+            this.participantCategoryService.byEvent(this.eventId),
+            this.participantService.find(this.eventId, this.participantId)
+          ).subscribe(
+            (data) => {
+              this.categories = data[0];
+              this.participant = this.loadParticipant(data[1]);
               this.categoryName = this.participant.category.name;
               this.calculatePayment();
               this.populateForm();
-              if (participant) this.title = this.participant.names;
+              if (data[1]) this.title = this.participant.names;
             },
             (error) => console.log(error)
           );
@@ -120,6 +124,7 @@ export class ParticipantsEditComponent implements OnInit {
                                           participant.nit,
                                           participant.note,
                                           participant._payments);
+      console.log(this.categories);
       loadedParticipant.category = this.categories.filter(category => <string>category.id == loadedParticipant.categoryId)[0];
     }
     else {
