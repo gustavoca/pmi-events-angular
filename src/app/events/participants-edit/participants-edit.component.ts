@@ -124,7 +124,6 @@ export class ParticipantsEditComponent implements OnInit {
                                           participant.nit,
                                           participant.note,
                                           participant._payments);
-      console.log(this.categories);
       loadedParticipant.category = this.categories.filter(category => <string>category.id == loadedParticipant.categoryId)[0];
     }
     else {
@@ -168,16 +167,17 @@ export class ParticipantsEditComponent implements OnInit {
   }
 
   onSubmit(print?: boolean) {
+    console.log(print);
     let values = this.participantForm.value;
     if (this.participant.id) {
-      this.updateParticipant(values);
+      this.updateParticipant(values, print);
     }
     else { //new participant
-      this.save(values);
+      this.save(values, print);
     }
   }
 
-  save(values) {
+  save(values, print) {
     let participant = new Participant(null,
                                 values.names,
                                 values.firstSurname,
@@ -228,7 +228,7 @@ export class ParticipantsEditComponent implements OnInit {
     return url;
   }
 
-  updateParticipant(values) {
+  updateParticipant(values, print) {
     this.participant.names = values.names;
     this.participant.firstSurname = values.firstSurname;
     this.participant.lastSurname = values.lastSurname;

@@ -15,7 +15,7 @@
     <button (click)="onCancel()" class="btn btn-link">Cancelar</button>
   </div>
 </div>
-<form [formGroup]="participantForm" (ngSubmit)="onSubmit()" id="ngParticipantForm">
+<form [formGroup]="participantForm" (ngSubmit)="onSubmit(false)" id="ngParticipantForm">
   <div class="row">
     <div class="col-sm-12 col-lg-6">
       <div class="form-group row">
