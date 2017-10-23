@@ -31,6 +31,9 @@ export class ParticipantsListComponent implements OnInit {
   currentParticipant: Participant;
   participantCategories: Array<ParticipantCategory>;
   preSalePercentage: number;
+  // searchString: string;
+
+  tableFilter: any = { lastSurname: null };
 
   constructor(private participantService: ParticipantService,
               private messageService: MessageService,
