@@ -26,6 +26,7 @@ import { QrShowComponent } from './events/qr-show/qr-show.component';
 import { PaymentsComponent } from './events/payments/payments.component';
 import { CanLeaveGuard } from './_services/can-leave-guard.service';
 import { BadgesComponent } from './events/badges/badges.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { BadgesComponent } from './events/badges/badges.component';
     AlertComponent,
     QrShowComponent,
     PaymentsComponent,
-    BadgesComponent
+    BadgesComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

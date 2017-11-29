@@ -1,3 +1,5 @@
+import { AuthService } from 'app/login/auth.service';
+import { AuthGuard } from './_services/auth.guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -8,13 +10,15 @@ import { ParticipantsComponent } from './events/participants/participants.compon
 import { EventEditComponent } from './events/event-edit/event-edit.component';
 import { EventShowComponent } from './events/event-show/event-show.component';
 import { ParticipantsEditComponent } from './events/participants-edit/participants-edit.component';
+import { LoginComponent } from './login/login.component';
 import { ParticipantsListComponent } from 'app/events/participants/participants-list/participants-list.component';
 import { BadgesComponent } from './events/badges/badges.component';
 import { CanLeaveGuard } from './_services/can-leave-guard.service';
 
 const appRoutes: Routes = [
+  { path: 'login', component: LoginComponent },
   {
-    path: 'events', component: EventsComponent, children: [
+    path: 'events', component: EventsComponent, canActivate: [AuthGuard], canActivateChild: [AuthGuard], children: [
       { path: 'new', component: EventEditComponent, canDeactivate: [CanLeaveGuard] },
       {
         path: ':id/participants', component: ParticipantsComponent, children: [
@@ -31,12 +35,13 @@ const appRoutes: Routes = [
   },
   // { path: 'check-in', component: CheckInComponent },
   { path: '', redirectTo: '/events', pathMatch: 'full' }
-]
+];
 
 @NgModule({
   // imports: [RouterModule.forRoot(appRoutes, { enableTracing: true })],
   imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard, AuthService]
 })
 
 export class AppRoutingModule {
