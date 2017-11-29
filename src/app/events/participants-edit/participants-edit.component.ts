@@ -115,6 +115,7 @@ export class ParticipantsEditComponent implements OnInit {
                                           participant.registeredAt,
                                           participant.phone,
                                           participant.lunch,
+                                          participant.discount,
                                           participant.email,
                                           participant.qrCode,
                                           participant.categoryId,
@@ -138,10 +139,15 @@ export class ParticipantsEditComponent implements OnInit {
   }
 
   calculatePayment() {
+    console.log("change");
     this.participant.category = this.categories.filter(category => category.name == this.categoryName)[0];
     this.currentTotal = this.participant.totalToPay();
     this.currentTotalToPay = this.participant.toPay();
     this.totalPaid = this.participant.totalPaid();
+    console.log("disc", this.participant.discount);
+    console.log("tota", this.currentTotal);
+    console.log("topay", this.currentTotalToPay);
+    console.log("paid", this.totalPaid);
   }
 
   populateForm() {
@@ -158,6 +164,7 @@ export class ParticipantsEditComponent implements OnInit {
       nit: this.participant.nit,
       note: this.participant.note,
       lunch: this.participant.lunch,
+      discount: this.participant.discount,
       attended: this.participant.attended
     });
   }
@@ -167,7 +174,6 @@ export class ParticipantsEditComponent implements OnInit {
   }
 
   onSubmit(print?: boolean) {
-    console.log(print);
     let values = this.participantForm.value;
     if (this.participant.id) {
       this.updateParticipant(values, print);
@@ -185,6 +191,7 @@ export class ParticipantsEditComponent implements OnInit {
                                 values.registeredAt,
                                 values.phone,
                                 values.lunch,
+                                values.discount,
                                 values.email,
                                 this.generateQrCode(),
                                 this.categories.filter(category => category.name == values.categoryName)[0].id,
@@ -238,6 +245,7 @@ export class ParticipantsEditComponent implements OnInit {
     this.participant.categoryId = this.categories.filter(category => category.name == values.categoryName)[0].id;
     this.participant.modality = values.modality;
     this.participant.socialReason = values.socialReason;
+    this.participant.discount = values.discount;
     this.participant.nit = values.nit;
     this.participant.note = values.note;
     this.participant.attended = values.attended;
@@ -277,7 +285,8 @@ export class ParticipantsEditComponent implements OnInit {
       'nit'         : new FormControl(null, [Validators.required]),
       'note'        : new FormControl(null, [Validators.required]),
       'attended'    : new FormControl(null),
-      'lunch'       : new FormControl(null)
+      'lunch'       : new FormControl(null),
+      'discount'    : new FormControl(null, [Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0*$')])
     });
 
     this.participantForm.patchValue({

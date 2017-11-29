@@ -30,7 +30,6 @@ export class ParticipantsListComponent implements OnInit {
   participantItemSubscription: Subscription;
   currentParticipant: Participant;
   participantCategories: Array<ParticipantCategory>;
-  // searchString: string;
 
   tableFilter: any = { lastSurname: null };
 
@@ -95,19 +94,10 @@ export class ParticipantsListComponent implements OnInit {
   }
 
   addCategoryToParticipants(fetchedParticipants, categories) {
-    let participants = fetchedParticipants.map(p => new Participant(
-                                                p.id, p.names, p.firstSurname,
-                                                p.lastSurname, p.registeredAt,
-                                                p.phone, p.lunch,
-                                                p.email, p.qrCode,
-                                                p.categoryId, p.modality,
-                                                p.socialReason, p.attended,
-                                                p.nit, p.note, p._payments
-                                              ));
-    participants.forEach(participant => {
+    fetchedParticipants.forEach(participant => {
       participant.category = categories.filter(category => category.id == participant.categoryId)[0];
     });
-    return participants;
+    return fetchedParticipants;
   }
 
   onNewParticipant() {

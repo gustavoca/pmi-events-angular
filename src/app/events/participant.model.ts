@@ -21,6 +21,7 @@ export class Participant {
   category          : any;
   attended          : boolean;
   lunch             : boolean;
+  discount          : number;
 
   constructor(id?          : string,
               names?       : string,
@@ -28,7 +29,8 @@ export class Participant {
               lastSurname? : string,
               registeredAt?: Date,
               phone?       : number,
-              lunch?        : boolean,
+              lunch?       : boolean,
+              discount?    : number,
               email?       : string,
               qrCode?      : string,
               categoryId?  : string,
@@ -54,6 +56,7 @@ export class Participant {
     this.attended     = attended;
     this._payments    = payments;
     this.lunch        = lunch;
+    this.discount     = discount ? discount : 0;
   }
 
   totalToPay() {
@@ -65,6 +68,7 @@ export class Participant {
     else {
       total += this.category.presalePrice;
     }
+    if(!!this.discount) total -= this.discount;
     return total;
   }
 
