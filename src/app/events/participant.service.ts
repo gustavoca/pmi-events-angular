@@ -19,13 +19,14 @@ export class ParticipantService {
     return this.http.get(`${environment.BASEURL}/events/${eventId}/participants${filter ? Filter.encode(filter): ''}`).map(
       (response: Response) => {
         let res = response.json();
-        let events = res.map(p => new Participant(p.id,
+        let participants = res.map(p => new Participant(p.id,
                                                   p.names,
                                                   p.firstSurname,
                                                   p.lastSurname,
                                                   p.registeredAt,
                                                   p.phone,
                                                   p.lunch,
+                                                  p.discount,
                                                   p.email,
                                                   p.qrCode,
                                                   p.categoryId,
@@ -35,7 +36,7 @@ export class ParticipantService {
                                                   p.nit,
                                                   p.note,
                                                   p._payments));
-        return events;
+        return participants;
       }
     );
   }
