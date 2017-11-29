@@ -1,15 +1,16 @@
 import { environment } from '../../environments/environment';
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Participant } from './participant.model';
+import { HttpClient } from '../http-client';
 const BASEURL = 'http://localhost:3000/api';
 
 @Injectable()
 export class PaymentService {
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   all(eventId, participantId) {
     return this.http.get(`${environment.BASEURL}/events/${eventId}/participants/${participantId}/payments`).map(

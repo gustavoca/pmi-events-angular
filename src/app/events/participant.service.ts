@@ -1,18 +1,19 @@
 import { environment } from '../../environments/environment';
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { Participant } from './participant.model';
 import { Filter } from '../_services/filter.service';
+import { HttpClient } from '../http-client';
 import { ParticipantCategoryService } from './participantCategory.service';
 
 const BASEURL = 'http://localhost:3000/api';
 
 @Injectable()
 export class ParticipantService {
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               private participantCategoryService: ParticipantCategoryService) {}
 
   all(eventId, filter?) {

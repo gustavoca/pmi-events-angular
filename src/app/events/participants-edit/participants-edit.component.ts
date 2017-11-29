@@ -139,15 +139,10 @@ export class ParticipantsEditComponent implements OnInit {
   }
 
   calculatePayment() {
-    console.log("change");
     this.participant.category = this.categories.filter(category => category.name == this.categoryName)[0];
     this.currentTotal = this.participant.totalToPay();
     this.currentTotalToPay = this.participant.toPay();
     this.totalPaid = this.participant.totalPaid();
-    console.log("disc", this.participant.discount);
-    console.log("tota", this.currentTotal);
-    console.log("topay", this.currentTotalToPay);
-    console.log("paid", this.totalPaid);
   }
 
   populateForm() {

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { ParticipantCategory } from './participantCategory.model';
 import { Participant } from './participant.model';
 import { environment } from '../../environments/environment';
+import { HttpClient } from '../http-client';
 const BASEURL = 'http://localhost:3000/api';
 
 @Injectable()
@@ -26,7 +27,7 @@ export class ParticipantCategoryService {
     new ParticipantCategory("13", "Disertante", 0, 0)
   ];
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   all() {
     return this.categories;

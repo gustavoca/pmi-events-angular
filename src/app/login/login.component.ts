@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'app/login/auth.service';
+import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private alertService: AlertService) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -29,7 +31,8 @@ export class LoginComponent implements OnInit {
     this.auth.login({ credentials }).subscribe(response => {
       this.auth.persist('ACCESS_TOKEN', response.id);
       this.router.navigate(['/events']);
-    });
+    },
+    err => this.alertService.error("email/password Inválido"));
   }
 
 }

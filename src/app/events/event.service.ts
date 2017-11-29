@@ -1,17 +1,18 @@
 import { environment } from '../../environments/environment';
 
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Event } from './event.model';
+import { HttpClient } from '../http-client';
 import { Participant } from './participant.model';
 import { Filter } from '../_services/filter.service';
 const BASEURL = 'http://localhost:3000/api';
 
 @Injectable()
 export class EventService {
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   all(filter?) {
     return this.http.get(`${environment.BASEURL}/events${filter ? Filter.encode(filter): ''}`).map(
