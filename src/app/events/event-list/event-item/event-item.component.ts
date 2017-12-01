@@ -38,12 +38,14 @@ export class EventItemComponent implements OnInit {
   }
 
   onDeleteEvent() {
-    this.eventService.delete(this.event.id).subscribe(
-      (res) => {
-        this.alertService.success(`Evento eliminado.`);
-        this.messageService.sendMessage(MessageType.deleteEvent, this.event.id);
-      },
-      (error) => this.alertService.error(error)
-    );
+    if (confirm("Esta seguro que desea eliminar este evento?")) {
+      this.eventService.delete(this.event.id).subscribe(
+        (res) => {
+          this.alertService.success(`Evento eliminado.`);
+          this.messageService.sendMessage(MessageType.deleteEvent, this.event.id);
+        },
+        (error) => this.alertService.error(error)
+      );
+    }
   }
 }

@@ -16,7 +16,7 @@ export class ParticipantItemComponent implements OnInit {
 
   @Input() participant: Participant;
   @Input() eventId: string;
-  pendingPayment: boolean;
+  // pendingPayment: boolean;
   paymentStatus: any = {
     "PAID": "Pagado",
     "PENDING": "Pendiente"
@@ -29,7 +29,6 @@ export class ParticipantItemComponent implements OnInit {
               private messageService: MessageService) { }
 
   ngOnInit() {
-    this.updatePendingPayment();
   }
 
   onShowPayments() {
@@ -48,22 +47,24 @@ export class ParticipantItemComponent implements OnInit {
     this.messageService.sendMessage(MessageType.showQr, this.participant);
   }
 
-  updatePendingPayment() {
-    if (this.participant.leftToPay() > 0) {
-      this.pendingPayment = true;
-    }
-    else {
-      this.pendingPayment = false;
-    }
+  get pendingPayment() {
+      if (this.participant.leftToPay() > 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
   }
 
   onDeleteParticipant() {
-    this.participantService.delete(this.eventId, this.participant.id).subscribe(
-      (res) => {
-        this.alertService.success(`Participante eliminado.`);
-        this.messageService.sendMessage(MessageType.deleteParticipant, this.participant.id);
-      },
-      (error) => this.alertService.error(error)
-    );
+    if (confirm("Esta seguro que desea eliminar este participante?")) {
+      this.participantService.delete(this.eventId, this.participant.id).subscribe(
+        (res) => {
+          this.alertService.success(`Participante eliminado.`);
+          this.messageService.sendMessage(MessageType.deleteParticipant, this.participant.id);
+        },
+        (error) => this.alertService.error(error)
+      );
+    }
   }
 }
