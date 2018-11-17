@@ -13,6 +13,7 @@ import { MessageService } from '../../../_services/message.service';
 import { MessageType } from '../../../_models/message.model';
 import { ParticipantCategory } from '../../participantCategory.model';
 import { EventService } from '../../event.service';
+import { PagerService } from '../../../_services/pagination.service';
 
 
 @Component({
@@ -30,6 +31,8 @@ export class ParticipantsListComponent implements OnInit {
   participantItemSubscription: Subscription;
   currentParticipant: Participant;
   participantCategories: Array<ParticipantCategory>;
+  pager: any = {}; // pager object
+  pagedItems: any[];   // paged items
 
   tableFilter: any = { fullName: null };
 
@@ -40,7 +43,8 @@ export class ParticipantsListComponent implements OnInit {
               private eventService: EventService,
               private router: Router,
               private route: ActivatedRoute,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              private pagerService: PagerService) { }
 
   ngOnInit() {
     this.initializeForm();
@@ -84,10 +88,22 @@ export class ParticipantsListComponent implements OnInit {
       data => {
         this.participantCategories = data[1];
         this.participants = this.addCategoryToParticipants(data[0], this.participantCategories);
+        this.setPage(1);
       },
       error => this.alertService.error(error)
     );
   }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.participants.length, page);
+
+    // get current page of items
+    this.pagedItems = this.participants.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    }
 
   trackPayments(index: number, participant: Participant) {
     return participant._payments.length;
