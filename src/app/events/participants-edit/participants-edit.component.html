@@ -91,6 +91,16 @@
         </div>
       </div>
       <div class="form-group row">
+        <label for="categoryName" class="col-4 col-form-label">Tipo de Pago</label>
+        <div class="col-8">
+          <select class="form-control" id="paymentType" formControlName="paymentType">
+            <option *ngFor="let paymentType of paymentTypes">
+                 {{paymentType}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
         <label for="attended" class="col-4 col-form-label">Asistió</label>
         <div class="col-8">
           <input type="checkbox" id="attended"

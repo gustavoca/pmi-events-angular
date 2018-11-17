@@ -1,6 +1,11 @@
 export const Modality = {
-    Sale: "Venta",
+    Sale   : "Venta",
     PreSale: "Pre-venta"
+}
+
+export const PaymentTypes = {
+  Individual : "Individual",
+  Corporative: "Corporativo"
 }
 
 export class Participant {
@@ -22,6 +27,7 @@ export class Participant {
   attended          : boolean;
   lunch             : boolean;
   discount          : number;
+  paymentType       : string;
 
   constructor(id?          : string,
               names?       : string,
@@ -36,10 +42,11 @@ export class Participant {
               categoryId?  : string,
               modality?    : string,
               socialReason?: string,
-              attended?   : boolean,
+              attended?    : boolean,
               nit?         : number,
               note?        : string,
-              payments?     : Array<any>) {
+              payments?    : Array<any>,
+              paymentType? : string) {
     this.id           = id;
     this.names        = names;
     this.firstSurname = firstSurname;
@@ -57,6 +64,7 @@ export class Participant {
     this._payments    = payments;
     this.lunch        = lunch;
     this.discount     = discount ? discount : 0;
+    this.paymentType  = paymentType;
   }
 
   totalToPay() {

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import { ParticipantCategoryService } from '../participantCategory.service';
 import { ParticipantService } from '../participant.service';
 import { EventService } from '../event.service';
-import { Participant, Modality } from '../participant.model';
+import { Participant, Modality, PaymentTypes } from '../participant.model';
 import { ParticipantCategory } from '../participantCategory.model';
 import { AlertService } from '../../_services/alert.service';
 
@@ -23,6 +23,7 @@ export class ParticipantsEditComponent implements OnInit {
   participant: Participant;
   categories: Array<ParticipantCategory>;
   modalities: Array<string> = [Modality.Sale, Modality.PreSale];
+  paymentTypes: Array<string> = Object.keys(PaymentTypes).map(key => PaymentTypes[key]);
   title: string = "Nuevo Participante";
 
   categoryName: string;
@@ -124,7 +125,8 @@ export class ParticipantsEditComponent implements OnInit {
                                           participant.attended,
                                           participant.nit,
                                           participant.note,
-                                          participant._payments);
+                                          participant._payments,
+                                          participant.paymentType);
       loadedParticipant.category = this.categories.filter(category => <string>category.id == loadedParticipant.categoryId)[0];
     }
     else {
@@ -133,6 +135,7 @@ export class ParticipantsEditComponent implements OnInit {
       loadedParticipant.categoryId = loadedParticipant.category.id;
 
       loadedParticipant.modality = this.modalities[0];
+      loadedParticipant.paymentType = this.paymentTypes[0];
     }
 
     return loadedParticipant;
@@ -160,7 +163,8 @@ export class ParticipantsEditComponent implements OnInit {
       note: this.participant.note,
       lunch: this.participant.lunch,
       discount: this.participant.discount,
-      attended: this.participant.attended
+      attended: this.participant.attended,
+      paymentType: this.participant.paymentType
     });
   }
 
@@ -195,7 +199,8 @@ export class ParticipantsEditComponent implements OnInit {
                                 false,
                                 values.nit,
                                 values.note,
-                                []);
+                                [],
+                                values.paymentType);
     this.participantService.save(this.eventId, participant).subscribe(
       (result) => {
         this.changesSaved = true;
@@ -209,10 +214,10 @@ export class ParticipantsEditComponent implements OnInit {
 
   showBadge(id?: string) {
     if (this.participant.id) {
-      window.open(`${this.revomeSlashes(window.location.href, 1)}/badge` );
+      window.open(`${this.removeSlashes(window.location.href, 1)}/badge` );
     }
     else {
-      window.open(`${this.revomeSlashes(window.location.href, 2)}/participants/${id}/badge` );
+      window.open(`${this.removeSlashes(window.location.href, 2)}/participants/${id}/badge` );
     }
   }
 
@@ -221,7 +226,7 @@ export class ParticipantsEditComponent implements OnInit {
     this.calculatePayment();
   }
 
-  revomeSlashes(url: string, slashes: number) {
+  removeSlashes(url: string, slashes: number) {
     let index = -1;
     for (let i = 0; i < slashes; i++) {
       index = url.lastIndexOf("/");
@@ -231,21 +236,22 @@ export class ParticipantsEditComponent implements OnInit {
   }
 
   updateParticipant(values, print) {
-    this.participant.names = values.names;
+    this.participant.names        = values.names;
     this.participant.firstSurname = values.firstSurname;
-    this.participant.lastSurname = values.lastSurname;
+    this.participant.lastSurname  = values.lastSurname;
     this.participant.registeredAt = values.registeredAt;
-    this.participant.phone = values.phone;
-    this.participant.email = values.email;
-    this.participant.categoryId = this.categories.filter(category => category.name == values.categoryName)[0].id;
-    this.participant.modality = values.modality;
+    this.participant.phone        = values.phone;
+    this.participant.email        = values.email;
+    this.participant.categoryId   = this.categories.filter(category => category.name == values.categoryName)[0].id;
+    this.participant.modality     = values.modality;
     this.participant.socialReason = values.socialReason;
-    this.participant.discount = values.discount;
-    this.participant.nit = values.nit;
-    this.participant.note = values.note;
-    this.participant.attended = values.attended;
+    this.participant.discount     = values.discount;
+    this.participant.nit          = values.nit;
+    this.participant.note         = values.note;
+    this.participant.attended     = values.attended;
+    this.participant.paymentType  = values.paymentType;
     this.participantService.update(this.eventId, this.participant).subscribe(
-      (result) => {
+      () => {
         this.changesSaved = true;
         if(print) this.showBadge();
         this.goToSourceLink();
@@ -281,7 +287,8 @@ export class ParticipantsEditComponent implements OnInit {
       'note'        : new FormControl(null, [Validators.required]),
       'attended'    : new FormControl(null),
       'lunch'       : new FormControl(null),
-      'discount'    : new FormControl(null, [Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0*$')])
+      'discount'    : new FormControl(null, [Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0*$')]),
+      'paymentType' : new FormControl(null)
     });
 
     this.participantForm.patchValue({

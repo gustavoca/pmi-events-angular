@@ -9,8 +9,6 @@ import { Filter } from '../_services/filter.service';
 import { HttpClient } from '../http-client';
 import { ParticipantCategoryService } from './participantCategory.service';
 
-const BASEURL = 'http://localhost:3000/api';
-
 @Injectable()
 export class ParticipantService {
   constructor(private http: HttpClient,
@@ -36,7 +34,8 @@ export class ParticipantService {
                                                   p.attended,
                                                   p.nit,
                                                   p.note,
-                                                  p._payments));
+                                                  p._payments,
+                                                  p.paymentType));
         return participants;
       }
     );
@@ -76,9 +75,4 @@ export class ParticipantService {
       }
     );
   }
-
-  private loadParticipant(participant) {
-    return new Participant();
-  }
-
 }
