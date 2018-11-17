@@ -127,6 +127,7 @@ export class ParticipantsEditComponent implements OnInit {
                                           participant.note,
                                           participant._payments,
                                           participant.paymentType);
+      loadedParticipant = this.addMissingRequiredValues(loadedParticipant);
       loadedParticipant.category = this.categories.filter(category => <string>category.id == loadedParticipant.categoryId)[0];
     }
     else {
@@ -180,6 +181,11 @@ export class ParticipantsEditComponent implements OnInit {
     else { //new participant
       this.save(values, print);
     }
+  }
+
+  addMissingRequiredValues(participant: Participant) {
+    if (!participant.paymentType) participant.paymentType = this.paymentTypes[0];
+    return participant;
   }
 
   save(values, print) {
@@ -288,7 +294,7 @@ export class ParticipantsEditComponent implements OnInit {
       'attended'    : new FormControl(null),
       'lunch'       : new FormControl(null),
       'discount'    : new FormControl(null, [Validators.pattern('^0*[1-9][0-9]*(\.[0-9]+)?|0*$')]),
-      'paymentType' : new FormControl(null)
+      'paymentType' : new FormControl(null, [Validators.required])
     });
 
     this.participantForm.patchValue({
